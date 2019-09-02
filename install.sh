@@ -35,6 +35,11 @@ echo -e 'DONE\nMoving score.py'
 mv score.py /usr/local/bin/scoreservice
 chmod 755 /usr/local/bin/scoreservice
 
+echo -e 'DONE\nCreating /cyberpatriot directory'
+mkdir -p /cyberpatriot
+cp cplogo.png /cyberpatriot/
+cp eoclogo.png /cyberpatriot/
+
 echo -e 'DONE\nRegistering scoring service'
 cp pysel_scoring.service /etc/systemd/system/
 systemctl enable pysel_scoring.service

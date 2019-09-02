@@ -49,7 +49,8 @@ def check_firewall():
 
 def draw_head(location):
     f = open(location,'w')
-    f.write('<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head><H2>Score Report</H2><br><table border="1"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>')
+    f.write('<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>')
+    f.write('<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><div align="center"><H2>Score Report</H2></div><br><table border="1"; align="center"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>')
     f.close()
 
 def draw_score(eventString): # Scoring Report Goodness.
@@ -72,8 +73,10 @@ def draw_score(eventString): # Scoring Report Goodness.
 def draw_tail(totalScore, possibleScore): # Draw the Score and Footer
     global SCORE_REPORT_LOCATION
     f = open(SCORE_REPORT_LOCATION,'a')
-    totalLine = "</table><br><H3>Total Score: " + str(totalScore) + " out of " +str(possibleScore) + "<H3>"
+    totalLine = '</table><div align="center"><br><H3>Total Score: ' + str(totalScore) + " out of " +str(possibleScore) + "<H3></div><hr>"
     f.write(totalLine)
+    timestamp = '<br><div align="center"><p>Last updated: ' + str(time.ctime()) + "</p></div></body>"
+    f.write(timestamp)
 
 def check_event(eventString):
     addScore = 0
@@ -110,7 +113,7 @@ def check_event(eventString):
             eventString.status = 'MISS'
 
     elif eventString.name == "addtofile":
-        if string_exists(eventString.kw1, eventString.kw2):
+        if string_exists(eventString.kw2, eventString.kw1):
             eventString.status = 'HIT'
             addScore = eventString.points
             print(eventString.points,eventString.description) # DEBUG
@@ -118,7 +121,7 @@ def check_event(eventString):
             eventString.status = 'MISS'
 
     elif eventString.name == "removefromfile":
-        if string_exists(eventString.kw1, eventString.kw2):
+        if string_exists(eventString.kw2, eventString.kw1):
             eventString.status = 'MISS'
         else:
             eventString.status = 'HIT'
