@@ -1,9 +1,4 @@
-#!/usr/bin/env python3
-
-import re, subprocess, sys, os
-
-SCORE_REPORT_LOCATION = '/home/jdavis/Documents/GitHub/pysel/score.html'
-
+import re, subprocess, sys, os, time
 
 class Event:
     def __init__(self, name, kw1, kw2, kw3, points, description, status):
@@ -54,7 +49,7 @@ def check_firewall():
 
 def draw_head(location):
     f = open(location,'w')
-    f.write('<H2>Score Report</H2><br><table border="1"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>')
+    f.write('<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head><H2>Score Report</H2><br><table border="1"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>')
     f.close()
 
 def draw_score(eventString): # Scoring Report Goodness.
@@ -66,11 +61,11 @@ def draw_score(eventString): # Scoring Report Goodness.
             fontcolor = '<tr><td><font color="red">'
         else:
             fontcolor = '<tr><td><font color="green">'
-        scoreLine = fontcolor + eventString.points + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
+        scoreLine = fontcolor + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
         f.write(scoreLine)
     else:
         if debug == True:
-            scoreLine = '<tr><td><font color="gray"> ' + eventString.points + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
+            scoreLine = '<tr><td><font color="gray"> ' + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
             f.write(scoreLine)
     f.close()
     
@@ -334,8 +329,7 @@ if len(sys.argv) > 1:
         debug = True   
 
 # Instantiate objects
-master = read_config('pysel.cfg')
-numEvents = file_len('pysel.cfg')
+numEvents = len(master)
 eventList = [Event('','','','',0,'','') for i in range(numEvents)]
 for j in range(numEvents): 
     eventList[j].name = master[j][0]
@@ -346,12 +340,14 @@ for j in range(numEvents):
     eventList[j].description = master[j][5]
     eventList[j].status = master[j][6]
 
-possibleScore = 0
-totalScore = 0
-draw_head(SCORE_REPORT_LOCATION)
-for vulns in eventList:
-    totalScore += int(check_event(vulns))
-    if int(vulns.points) > 0:
-        possibleScore += int(vulns.points)
-print(totalScore,"out of",possibleScore)
-draw_tail(totalScore, possibleScore)
+while True:
+    possibleScore = 0
+    totalScore = 0
+    draw_head(SCORE_REPORT_LOCATION)
+    for vulns in eventList:
+        totalScore += int(check_event(vulns))
+        if int(vulns.points) > 0:
+            possibleScore += int(vulns.points)
+    print(totalScore,"out of",possibleScore)
+    draw_tail(totalScore, possibleScore)
+    time.sleep(30)
