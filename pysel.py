@@ -274,7 +274,7 @@ def new_user(userName):
         return False
 
 def program_installed(program):
-    proc = subprocess.Popen(['dpkg','--list', ' \| ', 'grep', program], stdout=subprocess.PIPE)
+    proc = subprocess.Popen(['dpkg','--list'], stdout=subprocess.PIPE)
     output = proc.stdout.read().decode("utf-8")
     if program in output:
         return True

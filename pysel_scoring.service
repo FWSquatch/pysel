@@ -1,0 +1,9 @@
+[Unit]
+Description=PySEL Scoring Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/scoreservice
+
+[Install]
+WantedBy=multi-user.target

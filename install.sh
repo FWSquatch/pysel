@@ -31,5 +31,12 @@ python3 readconfig.py config.xlsx
 echo -e 'DONE\nCreating scoring engine'
 cat pysel.py >> score.py 
 
-echo -e 'DONE'
+echo -e 'DONE\nMoving score.py'
+mv score.py /usr/local/bin/scoreservice
+chmod 755 /usr/local/bin/scoreservice
+
+echo -e 'DONE\nRegistering scoring service'
+cp pysel_scoring.service /etc/systemd/system/
+systemctl enable pysel_scoring.service
+systemctl start pysel_scoring.service
 
