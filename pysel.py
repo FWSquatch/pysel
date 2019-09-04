@@ -178,7 +178,7 @@ def check_event(eventString):
             eventString.status = 'MISS'
     
     elif eventString.name == "check4updates":
-        updateInterval = 'APT::Periodic::Update-Package-Lists "' + str(eventString.kw1) + '";'
+        updateInterval = 'APT::Periodic::Update-Package-Lists "' + str(int(eventString.kw1)) + '";'
         if string_exists('/etc/apt/apt.conf.d/10periodic', updateInterval):
             eventString.status = 'HIT'
             addScore = eventString.points
@@ -187,7 +187,7 @@ def check_event(eventString):
             eventString.status = 'MISS'        
 
     elif eventString.name == "updateautoinstall":
-        updateInterval = 'APT::Periodic::Unattended-Upgrade "' + str(eventString.kw1) + '";'
+        updateInterval = 'APT::Periodic::Unattended-Upgrade "' + str(int(eventString.kw1)) + '";'
         if string_exists('/etc/apt/apt.conf.d/20auto-upgrades', updateInterval):
             eventString.status = 'HIT'
             addScore = eventString.points
@@ -258,8 +258,30 @@ def check_event(eventString):
             addScore = eventString.points
             print(eventString.points, eventString.description) # DEBUG
 
+    elif eventString.name == "kernelupdated":
+        if check_kernel(eventString.kw1):
+            eventString.status = 'HIT'
+            addScore = eventString.points
+            print(eventString.points, eventString.description) # DEBUG
+        else:
+            eventString.status = 'MISS'
+
+    elif eventString.name == "removefromcron":
+        if is_in_cron(eventString.kw1, eventString.kw2):
+            eventString.status = 'MISS'
+        else:
+            eventString.status = 'HIT'
+            print(eventString.points, eventString.description) # DEBUG
+    
+    elif eventString.name == "addtocron":
+        if is_in_cron(eventString.kw1, eventString.kw2):
+            eventString.status = 'HIT'
+            print(eventString.points, eventString.description) # DEBUG
+        else:
+            eventString.status = 'MISS'
+
     else:
-        print("unscoreable")
+        print("unscoreable", eventString.kw1)
         draw_score(eventString)
     draw_score(eventString)
     return addScore
@@ -324,6 +346,33 @@ def check_permissions(fileName):
     proc = subprocess.Popen(['stat', '-c', '%A', fileName], stdout=subprocess.PIPE)
     output = proc.stdout.read().decode("utf-8")
     return(output.rstrip())
+
+def check_kernel(initial):
+    initial = list(initial.split('.'))
+    proc = subprocess.Popen(['uname', '-r'],stdout=subprocess.PIPE)
+    current = list(proc.stdout.read().decode('utf-8').split('.'))
+    if int(current[0]) > int(initial[0]):
+        return True
+    elif int(current[1]) > int(initial[1]):
+        return True
+    else:
+        subCurrent = current[2].split('-')
+        subInitial = initial[2].split('-')
+        if int(subCurrent[0]) > int(subInitial[0]):
+            return True
+        elif int(subCurrent[1]) > int(subInitial[1]):
+            return True
+        else:
+            return False
+
+def is_in_cron(user, searchString):
+    proc = subprocess.Popen(['crontab', '-u', user, '-l'], stdout=subprocess.PIPE)
+    output = proc.stdout.read().decode('utf-8')
+    if searchString in output:
+        print(searchString, 'is in cron')
+        return True
+    else:
+        return False
 
 # Are we starting up in debug mode?
 debug = False
