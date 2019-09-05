@@ -12,7 +12,7 @@ for package in python3-pip; do
 done
 
 echo -e 'DONE\nInstalling Python modules'
-for module in xlrd; do
+for module in xlrd pyarmor; do
     pip3 install $module
 done
 
@@ -31,14 +31,18 @@ python3 readconfig.py config.xlsx
 echo -e 'DONE\nCreating scoring engine'
 cat pysel.py >> score.py 
 
-echo -e 'DONE\nMoving score.py'
-mv score.py /usr/local/bin/scoreservice
+echo -e 'DONE\nObfuscating scoring engine'
+sudo pyarmor obfuscate score.py
+
+echo -e 'DONE\nMoving score.py and notify.sh'
+mv dist/score.py /usr/local/bin/scoreservice
 chmod 755 /usr/local/bin/scoreservice
+cp notify.sh /usr/local/bin/notify.sh
+chmod 755 /usr/local/bin/notify.sh
 
 echo -e 'DONE\nCreating /cyberpatriot directory'
 mkdir -p /cyberpatriot
-cp cplogo.png /cyberpatriot/
-cp eoclogo.png /cyberpatriot/
+cp *.png /cyberpatriot/
 
 echo -e 'DONE\nRegistering scoring service'
 cp pysel_scoring.service /etc/systemd/system/
