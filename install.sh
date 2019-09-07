@@ -43,6 +43,7 @@ chmod 755 /usr/local/bin/notify.sh
 echo -e 'DONE\nCreating /cyberpatriot directory'
 mkdir -p /cyberpatriot
 cp *.png /cyberpatriot/
+cp *.wav /cyberpatriot/
 
 echo -e 'DONE\nRegistering scoring service'
 cp pysel_scoring.service /etc/systemd/system/

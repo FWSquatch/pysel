@@ -2,16 +2,16 @@
 
 SCORE_REPORT_LOCATION = "/home/jdavis/Desktop/score.html"
 
-master = [["baduser", "mwuntch", "", "User Management", 5.0, "User mwuntch has been removed.", "MISS"], ["gooduser", "jperalta", "", "User Management", -10.0, "Essential user has been removed!", "MISS"], ["gooduser", "asantiago", "", "User Management", -10.0, "Essential user has been removed!", "MISS"], ["gooduser", "rholt", "", "User Management", -10.0, "Essential user has been removed!", "MISS"], ["gooduser", "tjeffords", "", "User Management", -10.0, "Essential user has been removed!", "MISS"], ["newuser", "nscully", "", "User Management", 5.0, "User nscully has been added.", "MISS"], ["checkfirewall", "", "", "Security Policy", 4.0, "Firewall is enabled.", "MISS"], ["removefromfile", "allow-guest=true", "/etc/lightdm/lightdm.conf", "Security Policy", 5.0, "Guest account disabled", "MISS"], ["addtofile", "PermitRootLogin no", "/etc/ssh/sshd_config", "Security Policy", 5.0, "Root login on ssh no longer allowed.", "MISS"], ["goodprogram", "libpam-pwquality", "", "Program Management", 7.0, "Libpam-pwquality installed for password complexity.", "MISS"], ["badprogram", "hydra", "", "Program Management", 7.0, "Hydra has been removed", "MISS"], ["groupadded", "patrol", "", "User Management", 7.0, "Group patrol has been created.", "MISS"], ["groupremoved", "nine-eight", "", "User Management", 12.0, "Group nine-eight has been removed.", "MISS"], ["programversion", "git", "1:2.7.4-0ubuntu1.6", "Program Management", 5.0, "git updated", "MISS"], ["checkforensics", "/home/jperalta/Desktop/forensics1.txt", "tjeffords", "Forensics", 6.0, "Forensics 1 answered correctly.", "MISS"], ["checkforensics", "/home/jperalta/Desktop/forensics2.txt", "detectives", "Forensics", 6.0, "Forensics 2 answered correctly.", "MISS"], ["check4updates", 1.0, "", "Security Policy", 4.0, "Workstation checking for updates daily.", "MISS"], ["updateautoinstall", 1.0, "", "Security Policy", 4.0, "Workstation automatically installing updates.", "MISS"], ["useringroup", "rholt", "sudo", "User Management", 5.0, "User rholt is now an administrator.", "MISS"], ["usernotingroup", "glinetti", "sudo", "User Management", 4.0, "User glinetti is no longer an administrator.", "MISS"], ["emptypassword", "cboyle", "", "Security Policy", 6.0, "Insecure password for user cboyle has been changed.", "MISS"], ["badprocess", "apache2", "", "Services", 7.0, "Service apache2 is no longer running.", "MISS"], ["goodprocess", "sshd", "", "Services", 7.0, "Service sshd is running", "MISS"], ["permnotequalto", "/etc/ssh/sshd_config", "-rw-rw-rw-", "Security Policy", 8.0, "/etc/ssh/sshd_config permissions secured.", "MISS"], ["permequalto", "/etc/shadow", "-rw-r-----", "Security Policy", 7.0, "/etc/shadow permissions secured.", "MISS"], ["badfile", "/home/asantiago/Videos/jake.mov", "", "Miscellaneous", 5.0, "Unauthorized media file removed.", "MISS"], ["kernelupdated", "4.15.0-57-generic", "", "Miscellaneous", 7.0, "Kernel updated", "MISS"], ["removefromcron", "jperalta", "hello", "Miscellaneous", 7.0, "Malicious command removed from crontab", "MISS"], ["addtocron", "jperalta", "hello", "Miscellaneous", 7.0, "Backup cron job created.", "MISS"], ["goodprocess", "apache2", "", "Process Management", 10.0, "Apache webserver is up and running", "MISS"], ["badprocess", "nc -l -p 8899", "", "Process Management", 10.0, "Netcat backdoor stopped", "MISS"]]
+master = [["baduser", "mwuntch", "", "User Management", 5.0, "User mwuntch has been removed.", "MISS"], ["gooduser", "jperalta", "", "User Management", -10.0, "Essential user has been removed!", "MISS"], ["newuser", "nscully", "", "User Management", 5.0, "User nscully has been added.", "MISS"], ["checkfirewall", "", "", "Security Policy", 4.0, "Firewall is enabled.", "MISS"], ["removefromfile", "allow-guest=true", "/etc/lightdm/lightdm.conf", "Security Policy", 5.0, "Guest account disabled", "MISS"], ["addtofile", "PermitRootLogin no", "/etc/ssh/sshd_config", "Security Policy", 5.0, "Root login on ssh no longer allowed.", "MISS"], ["goodprogram", "libpam-pwquality", "", "Program Management", 7.0, "Libpam-pwquality installed for password complexity.", "MISS"], ["badprogram", "hydra", "", "Program Management", 7.0, "Hydra has been removed", "MISS"], ["groupadded", "patrol", "", "User Management", 7.0, "Group patrol has been created.", "MISS"], ["groupremoved", "nine-eight", "", "User Management", 12.0, "Group nine-eight has been removed.", "MISS"], ["programversion", "git", "1:2.7.4-0ubuntu1.6", "Program Management", 5.0, "git updated", "MISS"], ["checkforensics", "/home/jperalta/Desktop/forensics1.txt", "tjeffords", "Forensics", 6.0, "Forensics 1 answered correctly.", "MISS"], ["checkforensics", "/home/jperalta/Desktop/forensics2.txt", "detectives", "Forensics", 6.0, "Forensics 2 answered correctly.", "MISS"], ["check4updates", 1.0, "", "Security Policy", 4.0, "Workstation checking for updates daily.", "MISS"], ["updateautoinstall", 1.0, "", "Security Policy", 4.0, "Workstation automatically installing updates.", "MISS"], ["useringroup", "rholt", "sudo", "User Management", 5.0, "User rholt is now an administrator.", "MISS"], ["usernotingroup", "glinetti", "sudo", "User Management", 4.0, "User glinetti is no longer an administrator.", "MISS"], ["emptypassword", "cboyle", "", "Security Policy", 6.0, "Insecure password for user cboyle has been changed.", "MISS"], ["badprocess", "apache2", "", "Services", 7.0, "Service apache2 is no longer running.", "MISS"], ["goodprocess", "sshd", "", "Services", 7.0, "Service sshd is running", "MISS"], ["permnotequalto", "/etc/ssh/sshd_config", "-rw-rw-rw-", "Security Policy", 8.0, "/etc/ssh/sshd_config permissions secured.", "MISS"], ["permequalto", "/etc/shadow", "-rw-r-----", "Security Policy", 7.0, "/etc/shadow permissions secured.", "MISS"], ["badfile", "/home/asantiago/Videos/jake.mov", "", "Miscellaneous", 5.0, "Unauthorized media file removed.", "MISS"], ["kernelupdated", "4.15.0-57-generic", "", "Miscellaneous", 7.0, "Kernel updated", "MISS"], ["removefromcron", "jperalta", "hello", "Miscellaneous", 7.0, "Malicious command removed from crontab", "MISS"], ["addtocron", "jperalta", "hello", "Miscellaneous", 7.0, "Backup cron job created.", "MISS"], ["goodprocess", "apache2", "", "Process Management", 10.0, "Apache webserver is up and running", "MISS"], ["badprocess", "nc -l -p 8899", "", "Process Management", 10.0, "Netcat backdoor stopped", "MISS"]]
 
 import re, subprocess, sys, os, time
 
 class Event:
-    def __init__(self, name, kw1, kw2, kw3, points, description, status):
+    def __init__(self, name, kw1, kw2, tag, points, description, status):
         self.name = name
         self.kw1 = kw1
         self.kw2 = kw2
-        self.kw3 = kw3
+        self.tag = tag
         self.points = points
         self.description = description
         self.status = status
@@ -68,11 +68,11 @@ def draw_score(eventString): # Scoring Report Goodness.
             fontcolor = '<tr><td><font color="red">'
         else:
             fontcolor = '<tr><td><font color="green">'
-        scoreLine = fontcolor + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
+        scoreLine = fontcolor + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.tag + "</td></tr>"
         f.write(scoreLine)
     else:
         if debug == True:
-            scoreLine = '<tr><td><font color="gray"> ' + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
+            scoreLine = '<tr><td><font color="gray"> ' + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.tag + "</td></tr>"
             f.write(scoreLine)
     f.close()
     
@@ -300,8 +300,8 @@ def check_event(eventString):
         else:
             eventString.status = 'MISS'
 
-    else:
-        print("unscoreable", eventString.kw1)
+    else: # DEBUG - Is there something not getting scored?
+        print("unscoreable", eventString.kw1) 
         draw_score(eventString)
     draw_score(eventString)
     return addScore
@@ -373,7 +373,7 @@ def check_kernel(initial): # Check to see if kernel is updated
     current = list(proc.stdout.read().decode('utf-8').split('.')) # Grab the current kernel and split it
     if int(current[0]) > int(initial[0]): # Is the first digit greater?
         return True
-    elif int(current[1]) > int(initial[1]): # Second digit?
+    elif int(current[1]) > int(initial[1]): # Second digit greater?
         return True
     else:
         subCurrent = current[2].split('-') # Split the tail end of the version and compare
@@ -393,7 +393,7 @@ def is_in_cron(userName, searchString): # Is the searchString in the userName's 
     else:
         return False
 
-def proc_exists(searchString):
+def proc_exists(searchString): # Search ps -ef for a string
     proc = subprocess.Popen(['ps', '-ef'], stdout=subprocess.PIPE)
     output = proc.stdout.read().decode('utf-8')
     print(output)
@@ -415,7 +415,7 @@ for j in range(numEvents):
     eventList[j].name = master[j][0]
     eventList[j].kw1 = master[j][1]
     eventList[j].kw2 = master[j][2]
-    eventList[j].kw3 = master[j][3]
+    eventList[j].tag = master[j][3]
     eventList[j].points = master[j][4]
     eventList[j].description = master[j][5]
     eventList[j].status = master[j][6]
@@ -433,10 +433,12 @@ while True: # Fire the scoring engine every 30 seconds
     draw_tail(totalScore, possibleScore)
     print('Running:', runningScore, '\tTotal:', totalScore)
     if runningScore < totalScore:
+        subprocess.call(["/usr/bin/aplay", "/cyberpatriot/gain.wav"])
         subprocess.call(["/bin/bash", "/usr/local/bin/notify.sh", "-t","10000", "-i", "/cyberpatriot/gain-points.png", "PySel Message:", "YOU HAVE SCORED POINTS!!!"])
         runningScore = totalScore
         print(runningScore, totalScore)
     elif runningScore > totalScore:
+        subprocess.call(["/usr/bin/aplay", "/cyberpatriot/lose.wav"])
         subprocess.call(["/bin/bash", "/usr/local/bin/notify.sh", "-t","10000", "-i", "/cyberpatriot/lose-points.png", "PySel Message:", "YOU HAVE LOST POINTS!!!"])
         runningScore = totalScore
         print(runningScore,totalScore)

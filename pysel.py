@@ -1,11 +1,11 @@
 import re, subprocess, sys, os, time
 
 class Event:
-    def __init__(self, name, kw1, kw2, kw3, points, description, status):
+    def __init__(self, name, kw1, kw2, tag, points, description, status):
         self.name = name
         self.kw1 = kw1
         self.kw2 = kw2
-        self.kw3 = kw3
+        self.tag = tag
         self.points = points
         self.description = description
         self.status = status
@@ -62,11 +62,11 @@ def draw_score(eventString): # Scoring Report Goodness.
             fontcolor = '<tr><td><font color="red">'
         else:
             fontcolor = '<tr><td><font color="green">'
-        scoreLine = fontcolor + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
+        scoreLine = fontcolor + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.tag + "</td></tr>"
         f.write(scoreLine)
     else:
         if debug == True:
-            scoreLine = '<tr><td><font color="gray"> ' + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.kw3 + "</td></tr>"
+            scoreLine = '<tr><td><font color="gray"> ' + str(int(eventString.points)) + "</td><td>" + eventString.description + "</font></td><td>" + eventString.tag + "</td></tr>"
             f.write(scoreLine)
     f.close()
     
@@ -294,8 +294,8 @@ def check_event(eventString):
         else:
             eventString.status = 'MISS'
 
-    else:
-        print("unscoreable", eventString.kw1)
+    else: # DEBUG - Is there something not getting scored?
+        print("unscoreable", eventString.kw1) 
         draw_score(eventString)
     draw_score(eventString)
     return addScore
@@ -367,7 +367,7 @@ def check_kernel(initial): # Check to see if kernel is updated
     current = list(proc.stdout.read().decode('utf-8').split('.')) # Grab the current kernel and split it
     if int(current[0]) > int(initial[0]): # Is the first digit greater?
         return True
-    elif int(current[1]) > int(initial[1]): # Second digit?
+    elif int(current[1]) > int(initial[1]): # Second digit greater?
         return True
     else:
         subCurrent = current[2].split('-') # Split the tail end of the version and compare
@@ -387,7 +387,7 @@ def is_in_cron(userName, searchString): # Is the searchString in the userName's 
     else:
         return False
 
-def proc_exists(searchString):
+def proc_exists(searchString): # Search ps -ef for a string
     proc = subprocess.Popen(['ps', '-ef'], stdout=subprocess.PIPE)
     output = proc.stdout.read().decode('utf-8')
     print(output)
@@ -409,7 +409,7 @@ for j in range(numEvents):
     eventList[j].name = master[j][0]
     eventList[j].kw1 = master[j][1]
     eventList[j].kw2 = master[j][2]
-    eventList[j].kw3 = master[j][3]
+    eventList[j].tag = master[j][3]
     eventList[j].points = master[j][4]
     eventList[j].description = master[j][5]
     eventList[j].status = master[j][6]
@@ -427,10 +427,12 @@ while True: # Fire the scoring engine every 30 seconds
     draw_tail(totalScore, possibleScore)
     print('Running:', runningScore, '\tTotal:', totalScore)
     if runningScore < totalScore:
+        subprocess.call(["/usr/bin/aplay", "/cyberpatriot/gain.wav"])
         subprocess.call(["/bin/bash", "/usr/local/bin/notify.sh", "-t","10000", "-i", "/cyberpatriot/gain-points.png", "PySel Message:", "YOU HAVE SCORED POINTS!!!"])
         runningScore = totalScore
         print(runningScore, totalScore)
     elif runningScore > totalScore:
+        subprocess.call(["/usr/bin/aplay", "/cyberpatriot/lose.wav"])
         subprocess.call(["/bin/bash", "/usr/local/bin/notify.sh", "-t","10000", "-i", "/cyberpatriot/lose-points.png", "PySel Message:", "YOU HAVE LOST POINTS!!!"])
         runningScore = totalScore
         print(runningScore,totalScore)
