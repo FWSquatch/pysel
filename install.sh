@@ -33,10 +33,11 @@ cat pysel.py >> score.py
 
 echo -e 'DONE\nObfuscating scoring engine'
 sudo pyarmor obfuscate score.py
+mv dist /usr/local/bin/
 
 echo -e 'DONE\nMoving score.py and notify.sh'
-mv dist/score.py /usr/local/bin/scoreservice
-chmod 755 /usr/local/bin/scoreservice
+#mv score.py /usr/local/bin/scoreservice
+#chmod 755 /usr/local/bin/scoreservice
 cp notify.sh /usr/local/bin/notify.sh
 chmod 755 /usr/local/bin/notify.sh
 
