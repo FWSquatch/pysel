@@ -3,7 +3,7 @@ Description=PySEL Scoring Service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /usr/local/bin/dist/score.py
+ExecStart=/usr/bin/python3 /usr/local/bin/PySEL.py
 
 [Install]
 WantedBy=multi-user.target

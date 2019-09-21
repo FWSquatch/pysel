@@ -1,10 +1,78 @@
-PySEL - Python Scoring Engine: Linux
+# PySEL - Python Scoring Engine: Linux
 
-CSEL's little brother is ready to make his debut!
+## Description
+This is a rewrite of CSEL in Python. The engine was simplified from a GUI interface to a simple config file. PySEL was written in order to help cyberpatriot coaches and other teams create their own practice linux images. 
 
-This is a rewrite of CSEL in Python. The engine itself has been simplified quite a bit and no longer using a tkinter GUI to set up the configuration.
+---
+## Installation
+1. Clone the repository
+2. Change directory into repository
+3. Add execute permission on install script
+4. Run the install script
+   
+```
+git clone https://github.com/FWSquatch/pysel
+chmod +x install.sh
+./install.sh
+```
 
-Installation
-Clone into this repo and then edit the config.xlsx file. Once it's ready to go, change the permissions on install.sh to make it executable and then sudo ./install.
+---
+## How to configure 
+The PySEL.conf file only has a set amount of issues for ease of understanding we will reference issues as events. In order to score an event changed enabled to `yes`. If you want to change teh point value of an event then change the `pointValue`. To deduct points make make the pointValue a negative value. Finally to customize the message on the score report change the value of `msg`.
+  
+An example event looks like: 
+```
+[User Management:Required_Users]
+enabled = yes
+pointValue = -10.0
+parameters = user1 user2
+description = Users that are required on the system
+msg = 
+```
+### Breakdown
+Each event will start with a title, the title consists of 2 parts: `[Category:Event]`  
+The `Event` correlates to a specific function that scores the event.  
+The `parameters` of each event are passed to the function that gets called. If an event supports mulple parameters each parameters must be seperated by a space. Not all events supports multiple parameters. 
 
-The install file will merge the config file, create a few others, and then set up the scoring engine to run as a service that will fire up at boot time.
+List of events that support multiple parameters:
+- `[User Management:Remove_Users]`
+- `[User Management:Required_Users]`
+- `[User Management:Add_Users]`
+- `[Package Management:Required_packages]`
+- `[Package Management:Prohibited_packages]`
+- 
+
+
+---
+## Development
+If you are wanting to add a custom event you will need to follow some guidelines.  
+All event checks are stored in the Event_checks folder. 
+- In order to score points the event should return `True`
+- The event must only return `True` or `False`.  
+- By default the return value should be `False`. 
+- Functions in `Utils.py` are avilable and can be imported by adding `from .Utils import Utils`
+  
+An example custom event should look similar to this:
+  
+Filename: `Check_hostname.py`
+```
+from .Utils import Utils
+## The hostname is passed from the parameters
+def Check_hostname(hostname):
+    if Utils.run_command('cat /etc/hostname') == hostname:
+        return True
+    else:
+        return False
+```
+
+- Once you have the function written add `from .Check_hostname import Check_hostname` to the bottom of `__init__.py`
+
+
+After all of that is done you can add your custom event to the PySEL.conf file. 
+```
+[Custom Events: Check_hostname]
+enabled = yes
+pointValue = 5
+parameters = Cyberpatriot
+description = Make sure the hostname is set to "Cyberpatriot"
+```
