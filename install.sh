@@ -49,7 +49,9 @@ cp *.png /cyberpatriot/
 cp *.wav /cyberpatriot/
 
 echo -e 'DONE\nCreating Team ID Changer'
+#chown $(id -nu 1000):$(id -nu 1000) SetTeam.desktop
 cp SetTeam.desktop '/home/'$(id -nu 1000)'/Desktop/'
+chmod 777 '/home/'$(id -nu 1000)'/Desktop/SetTeam.desktop'
 cp setid.sh /cyberpatriot/
 chmod +x /cyberpatriot/setid.sh
 chmod 777 /usr/local/bin/
