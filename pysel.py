@@ -1,4 +1,4 @@
-import re, subprocess, sys, os, time
+import re, subprocess, sys, os, time, requests
 
 class Event:
     def __init__(self, name, kw1, kw2, tag, points, description, status):
@@ -415,7 +415,11 @@ for j in range(numEvents):
     eventList[j].status = master[j][6]
 
 runningScore = 0
-while True: # Fire the scoring engine every 30 seconds
+while True: # Fire the scoring engine every 60 seconds
+    if (os.path.exists('/usr/local/bin/teamID')):
+        f = open('/usr/local/bin/teamID', 'r')
+        teamName = f.readline()
+        f.close()     
     possibleScore = 0
     totalScore = 0
     draw_head(SCORE_REPORT_LOCATION)
@@ -436,4 +440,10 @@ while True: # Fire the scoring engine every 30 seconds
         subprocess.call(["/bin/bash", "/usr/local/bin/notify.sh", "-t","10000", "-i", "/cyberpatriot/lose-points.png", "PySel Message:", "YOU HAVE LOST POINTS!!!"])
         runningScore = totalScore
         print(runningScore,totalScore)
-    time.sleep(30)
+    playerName = "Ubuntu-R1"
+    scoreCommand = "http://moodle.centraltech.edu/scoreboard/simple-scoreboard.php?mode=send&game=cp&team="+teamName+"&player="+playerName+"&score="+str(runningScore)
+    r = requests.get(scoreCommand)
+     
+    time.sleep(60)
+    else:
+        print("No TEAM!")
