@@ -436,14 +436,15 @@ while True: # Fire the scoring engine every 60 seconds
         subprocess.call(["/bin/bash", "/usr/local/bin/notify.sh", "-t","10000", "-i", "/cyberpatriot/lose-points.png", "PySel Message:", "YOU HAVE LOST POINTS!!!"])
         runningScore = totalScore
         print(runningScore,totalScore)
-    if (os.path.exists('/cyberpatriot/teamID')):
-        f = open('/cyberpatriot/teamID', 'r')
+    if (os.path.exists('/usr/local/bin/TEAM')):
+        f = open('/usr/local/bin/TEAM', 'r')
         teamName = f.readline()
         f.close()   
         playerName = "Ubuntu-R1"
         scoreCommand = "http://moodle.centraltech.edu/scoreboard/simple-scoreboard.php?mode=send&game=cp&team="+teamName+"&player="+playerName+"&score="+str(runningScore)
+        print('sending', scoreCommand)
         r = requests.get(scoreCommand) 
-    
+        print(r.status_code) 
     else:
         print("No TEAM!")
     time.sleep(60)
