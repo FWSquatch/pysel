@@ -167,9 +167,18 @@ def check_event(eventString):
             print(eventString.points,eventString.description) # DEBUG
         else:
             eventString.status = 'MISS'    
+
+    elif eventString.name == "programnotversion":
+        if check_program_not_version(eventString.kw1, eventString.kw2):
+            eventString.status = 'HIT'
+            addScore = eventString.points
+            print(eventString.points,eventString.description) # DEBUG
+        else:
+            eventString.status = 'MISS'
+
     
     elif eventString.name == "checkforensics":
-        answer = 'ANSWER: ' + eventString.kw2
+        answer = eventString.kw2
         if string_exists(eventString.kw1, answer):
             eventString.status = 'HIT'
             addScore = eventString.points
@@ -327,6 +336,14 @@ def check_program_version(programName, version): # Is programName the correct ve
         return True
     else:
         return False
+
+def check_program_not_version(programName, version): # programName should NOT be this version
+    version = "Installed: " + version
+    output = subprocess.check_output(["apt-cache", "policy", programName]).decode("utf-8")
+    if version in output:
+        return False
+    else:
+        return True
 
 def user_in_group(userName, groupName): # Is userName in groupName?
     proc = subprocess.Popen(['grep', groupName, '/etc/group'], stdout=subprocess.PIPE)
