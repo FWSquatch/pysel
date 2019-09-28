@@ -7,17 +7,18 @@ class Pysel:
     def __init__(self, config_file):
         config_parser = configparser.ConfigParser()
         config_parser.read(config_file)
-        
+       
         self.events = {}
         self.currentScore = 0
         self.possibleScore = 0
         
         ## Parse the config
         for section in dict(config_parser._sections):
+            
             self.events[section] = dict(config_parser._sections[section])
-            if int(self.events[section]['pointvalue']) > 0.0:
+            if int(self.events[section]['pointvalue']) > 0:
                 self.possibleScore += int(self.events[section]['pointvalue']) 
-     
+            print(section)
     
     def play_noise(self, file):
         pass
@@ -41,6 +42,7 @@ class Pysel:
                     continue
 
                 params = event['parameters'].split(' ')
+                print(params)
                 
                 ## Events that reward points
                 if int(event['pointvalue']) > 0:
@@ -79,6 +81,6 @@ class Pysel:
             time.sleep(5)
     
 if __name__ == "__main__":
-    Engine = Pysel("Pysel.conf")
+    Engine = Pysel("PySEL.conf")
     
     Engine.start_engine()
