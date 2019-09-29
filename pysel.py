@@ -13,15 +13,19 @@ class Pysel:
         config_parser.read(config_file)
        
         self.events = {}
+        self.general = {}
         self.currentScore = 0
         self.possibleScore = 0
 
         ## Parse the config
         for section in dict(config_parser._sections):
-            self.events[section] = dict(config_parser._sections[section])
-            if self.events[section]['enabled'] == 'yes':
-                if int(self.events[section]['pointvalue']) > 0:
-                    self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
+            if section == 'General:Options':  ## Look at the general options
+                self.general[section] = dict(config_parser._sections['General:Options'])
+            else:
+                self.events[section] = dict(config_parser._sections[section])
+                if self.events[section]['enabled'] == 'yes':
+                    if int(self.events[section]['pointvalue']) > 0:
+                        self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
     
     def play_noise(self, file):
         pass
@@ -35,12 +39,15 @@ class Pysel:
 
 
     def start_engine(self):
-        timeLeft = 180
+        timeLeft = int(self.general['General:Options']['timelimit'])
+    
         initialScore = 0
         while True:
-            print('     +-------------------------------+')
-            print('     |      PySEL Score Report:      |')
-            print('     +-------------------------------+')
+            print('     +------------------------------+')
+            print('     |      PySEL Score Report      |')
+            print('     |       ' + self.general['General:Options']['remotereportinground'] + "        |")
+            print('     +------------------------------+')
+
             self.currentScore = 0
             for name, event in self.events.items():
             

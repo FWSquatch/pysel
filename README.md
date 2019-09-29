@@ -43,8 +43,12 @@ List of events that support multiple parameters:
 - `[Application Upate:Required_packages]`
 - `[Unwanted Software:Prohibited_packages]`
 - `[Application Security:Secure_ssh]`
-- `[Service Auditing: Required_services]`
-- `[Service Auditing: Prohibited_services]`
+- `[Service Auditing:Required_services]`
+- `[Service Auditing:Prohibited_services]`
+- `[User Auditing:Remove_from_group]`
+- `[User Auditing:Add_to_group]`
+- `[Uncatagorized OS Setting:Perm_no_longer_equal]`
+- `[Uncatagorized OS Setting:Perm_now equal_to]`
 
 
 ---
