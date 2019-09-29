@@ -4,6 +4,7 @@ import time
 import Event_checks
 
 DEBUG = True
+scoreReport = '/home/jdavis/Desktop/score.html'
 
 class Pysel:
 

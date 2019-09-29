@@ -6,3 +6,7 @@ from .Disable_guest import Disable_guest
 from .Required_packages import Required_packages
 from .Prohibited_packages import Prohibited_packages
 from .Secure_ssh import Secure_ssh
+from .Prohibited_services import Prohibited_services
+from .Required_services import Required_services
+from .Check_forensics import Check_forensics
+from .Secure_login_defs import Secure_login_defs

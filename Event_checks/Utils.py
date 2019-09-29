@@ -25,3 +25,12 @@ class Utils:
             return True
         else:
             return False
+
+    @staticmethod
+    def service_running(service):
+        check_service = 'sudo systemctl status ' + service
+        output = str(Utils.run_command(check_service))
+        if ' active ' in output:
+            return True
+        else:
+            return False

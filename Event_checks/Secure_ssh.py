@@ -24,3 +24,8 @@ def Secure_ssh(flaw):
             return False
         else:
             return True
+    elif flaw == 'PermitUserEnvironmentNo':
+        if Utils.string_exists('/etc/ssh/sshd_config', '^PermitUserEnvironment yes'):
+            return False
+        else:
+            return True

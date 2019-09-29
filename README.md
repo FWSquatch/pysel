@@ -18,7 +18,7 @@ chmod +x install.sh
 
 ---
 ## How to configure 
-The PySEL.conf file only has a set amount of issues for ease of understanding we will reference issues as events. In order to score an event changed enabled to `yes`. If you want to change teh point value of an event then change the `pointValue`. To deduct points make make the pointValue a negative value. Finally to customize the message on the score report change the value of `msg`.
+The PySEL.conf file only has a set amount of issues for ease of understanding we will reference issues as events. In order to score an event changed enabled to `yes`. If you want to change the point value of an event then change the `pointValue`. To deduct points make make the pointValue a negative value. Finally to customize the message on the score report change the value of `msg`.
   
 An example event looks like: 
 ```
@@ -35,12 +35,16 @@ The `Event` correlates to a specific function that scores the event.
 The `parameters` of each event are passed to the function that gets called. If an event supports mulple parameters each parameters must be seperated by a space. Not all events supports multiple parameters. 
 
 List of events that support multiple parameters:
-- `[User Management:Remove_Users]`
-- `[User Management:Required_Users]`
-- `[User Management:Add_Users]`
-- `[Package Management:Required_packages]`
-- `[Package Management:Prohibited_packages]`
-- 
+- `[Forensics:Check_forensics]`
+- `[User Auditing:Remove_users]`
+- `[User Auditing:Add_users]`
+- `[User Auditing:Required_users]`
+- `[Account Policy:Secure_login_defs]`
+- `[Application Upate:Required_packages]`
+- `[Unwanted Software:Prohibited_packages]`
+- `[Application Security:Secure_ssh]`
+- `[Service Auditing: Required_services]`
+- `[Service Auditing: Prohibited_services]`
 
 
 ---
