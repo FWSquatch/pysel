@@ -34,11 +34,12 @@ class Pysel:
 
 
     def start_engine(self):
+        timeLeft = 180
         initialScore = 0
         while True:
-            print('+-------------------------------+')
-            print('|      PySEL Score Report:      |')
-            print('+-------------------------------+')
+            print('     +-------------------------------+')
+            print('     |      PySEL Score Report:      |')
+            print('     +-------------------------------+')
             self.currentScore = 0
             for name, event in self.events.items():
             
@@ -50,22 +51,24 @@ class Pysel:
                     for parameter in params:
                         ## Eval the event to call the correct Event_checks function
                         if eval("Event_checks."+name.split(":")[1]+"(parameter)"):
-                            print(' + ',event['msg'], parameter)
+                            print('[X] ',event['pointvalue'], 'pts for',event['msg'], parameter )
                             self.currentScore += int(event['pointvalue'])
                         else:
                             if DEBUG == True and int(event['pointvalue']) > 0:
-                                    print("MISS",event['msg'], parameter)
+                                    print("[ ]  0 pts for",event['msg'], parameter)
             
             ## Did we gain or lose points?
             if initialScore < self.currentScore:
-                print("____I LIKE YOUR STYLE!____")
+                print("_____I LIKE YOUR STYLE!____")
                 self.play_noise('/cyberpatriot/gain.wav')
             elif initialScore > self.currentScore:
-                print("____YOU DISGUST ME!____")
+                print("_____YOU DISGUST ME!____")
                 self.play_noise('/cyberpatriot/lose.wav')
 
             initialScore = self.currentScore
             print('Current score: {} out of {}'.format(self.currentScore, self.possibleScore))
+            print('You have', timeLeft, 'minutes remaining.\n\n')
+            timeLeft -= 1
             time.sleep(5)
             
     

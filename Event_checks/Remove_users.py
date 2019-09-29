@@ -1,7 +1,7 @@
 from .Utils import Utils
 
-def Add_Users(user):
+def Remove_users(user):
     if Utils.string_exists('/etc/passwd', user):
-        return True
+        return False
     else:
-        return False 
+        return True        
