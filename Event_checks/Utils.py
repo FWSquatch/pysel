@@ -34,3 +34,18 @@ class Utils:
             return True
         else:
             return False
+
+    @staticmethod
+    def user_in_group(user, group):
+        command = "grep " + group + " /etc/group"
+        output = Utils.run_command(command).decode().rstrip().split(":")
+        if user in output:
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def check_perm(filename):
+        command = 'stat -c %a ' + filename
+        output = Utils.run_command(command).decode()
+        return output.rstrip()

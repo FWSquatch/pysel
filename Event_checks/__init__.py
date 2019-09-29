@@ -10,3 +10,9 @@ from .Prohibited_services import Prohibited_services
 from .Required_services import Required_services
 from .Check_forensics import Check_forensics
 from .Secure_login_defs import Secure_login_defs
+from .Add_to_sudo import Add_to_sudo
+from .Remove_from_sudo import Remove_from_sudo
+from .Add_to_group import Add_to_group
+from .Remove_from_group import Remove_from_group
+from .Perm_no_longer_equal import Perm_no_longer_equal
+from .Perm_now_equal_to import Perm_now_equal_to
