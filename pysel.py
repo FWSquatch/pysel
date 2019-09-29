@@ -3,7 +3,10 @@ import subprocess
 import time
 import Event_checks
 
+DEBUG = True
+
 class Pysel:
+
     def __init__(self, config_file):
         config_parser = configparser.ConfigParser()
         config_parser.read(config_file)
@@ -11,14 +14,13 @@ class Pysel:
         self.events = {}
         self.currentScore = 0
         self.possibleScore = 0
-        
+
         ## Parse the config
         for section in dict(config_parser._sections):
-            
             self.events[section] = dict(config_parser._sections[section])
-            if int(self.events[section]['pointvalue']) > 0:
-                self.possibleScore += int(self.events[section]['pointvalue']) 
-            print(section)
+            if self.events[section]['enabled'] == 'yes':
+                if int(self.events[section]['pointvalue']) > 0:
+                    self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
     
     def play_noise(self, file):
         pass
@@ -32,53 +34,40 @@ class Pysel:
 
 
     def start_engine(self):
-        events_scored = []
+        initialScore = 0
         while True:
-            print("[*]Score Loop:\n [*]Current score: {} out of {}".format(self.currentScore, self.possibleScore))
+            print('+-------------------------------+')
+            print('|      PySEL Score Report:      |')
+            print('+-------------------------------+')
+            self.currentScore = 0
             for name, event in self.events.items():
-                ## Eval the event to call the correct Event_checks function
-                ## parse the parameters list
+            
+            ## parse the parameters list
                 if event['enabled'] != "yes":
                     continue
-
-                params = event['parameters'].split(' ')
-                print(params)
-                
-                ## Events that reward points
-                if int(event['pointvalue']) > 0:
-                    if eval("Event_checks."+name.split(":")[1]+"(params)"):
-                        if event in events_scored:
-                            print("[*]Event already scored")
-                        else:
-                            events_scored.append(event)
-                            print("[+]Point Scored:", name)
+                else:
+                    params = event['parameters'].split(' ')
+                    for parameter in params:
+                        ## Eval the event to call the correct Event_checks function
+                        if eval("Event_checks."+name.split(":")[1]+"(parameter)"):
+                            print(' + ',event['msg'], parameter)
                             self.currentScore += int(event['pointvalue'])
-
-                    ## If the event was previously scored and it is is no longer working
-                    elif not eval("Event_checks."+name.split(":")[1]+"(params)") and event in events_scored:
-                        print("[!]Previous gained score lost:", name)
-                        self.currentScore -= int(event['pointvalue'])
-                        for i,prev_event in enumerate(events_scored):
-                            if prev_event == event:
-                                del events_scored[i]
-
-                ## Events that deduct points 
-                elif int(event['pointvalue']) < 0:
-                    if not eval("Event_checks."+name.split(":")[1]+"(params)"):
-                        if event in events_scored:
-                            print('[*]Event already scored')
                         else:
-                            print("[!]Points lost:", name)
-                            self.currentScore += int(event['pointvalue'])
-                            events_scored.append(event)
+                            if DEBUG == True and int(event['pointvalue']) > 0:
+                                    print("MISS",event['msg'], parameter)
+            
+            ## Did we gain or lose points?
+            if initialScore < self.currentScore:
+                print("____I LIKE YOUR STYLE!____")
+                self.play_noise('/cyberpatriot/gain.wav')
+            elif initialScore > self.currentScore:
+                print("____YOU DISGUST ME!____")
+                self.play_noise('/cyberpatriot/lose.wav')
 
-                    elif eval("Event_checks."+name.split(":")[1]+"(params)") and event in events_scored:
-                        print("[+]Previous lost score gained:", name) 
-                        self.currentScore -= int(event['pointvalue'])
-                        for i,prev_event in enumerate(events_scored):
-                            if prev_event == event:
-                                del events_scored[i]
+            initialScore = self.currentScore
+            print('Current score: {} out of {}'.format(self.currentScore, self.possibleScore))
             time.sleep(5)
+            
     
 if __name__ == "__main__":
     Engine = Pysel("PySEL.conf")

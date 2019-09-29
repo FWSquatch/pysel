@@ -10,7 +10,7 @@ class Utils:
                 if re.search(searchString, line):
                     return True
             return False
-        except FileExistsError:
+        except:
             return False
     
     @staticmethod
@@ -21,7 +21,7 @@ class Utils:
 
     @staticmethod
     def package_installed(package):
-        if package in Utils.run_command('dpkg --list'):
+        if package in str(Utils.run_command('dpkg --list')):
             return True
         else:
             return False
