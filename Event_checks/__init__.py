@@ -20,3 +20,4 @@ from .Kernel_updated import Kernel_updated
 from .Update_settings import Update_settings
 from .Bad_file import Bad_file
 from .Secure_sysctl import Secure_sysctl
+from .Check_password import Check_password
