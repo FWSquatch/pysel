@@ -26,6 +26,3 @@ def Update_settings(setting):
             return True
         else:
             return False        
-
-
-print(Update_settings('mainRepoEnabled'))
