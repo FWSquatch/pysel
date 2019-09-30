@@ -47,5 +47,18 @@ class Utils:
     @staticmethod
     def check_perm(filename):
         command = 'stat -c %a ' + filename
-        output = Utils.run_command(command).decode()
-        return output.rstrip()
+        output = Utils.run_command(command).decode().rstrip()
+        return output
+
+    @staticmethod
+    def check_kernel():
+        command = 'uname -r'
+        output = Utils.run_command(command).decode().rstrip()
+        return output
+    
+    @staticmethod
+    def file_exists(path):
+        if subprocess.call("test -e '{}'".format(path), shell=True):
+            return False
+        else:
+            return True

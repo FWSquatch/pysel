@@ -16,3 +16,6 @@ from .Add_to_group import Add_to_group
 from .Remove_from_group import Remove_from_group
 from .Perm_no_longer_equal import Perm_no_longer_equal
 from .Perm_now_equal_to import Perm_now_equal_to
+from .Kernel_updated import Kernel_updated
+from .Update_settings import Update_settings
+from .Bad_file import Bad_file
