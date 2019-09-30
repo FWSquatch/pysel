@@ -77,7 +77,7 @@ class Pysel:
             print('Current score: {} out of {}'.format(self.currentScore, self.possibleScore))
             print('You have', timeLeft, 'minutes remaining.\n\n')
             timeLeft -= 1
-            time.sleep(5)
+            time.sleep(25)
             
     
 if __name__ == "__main__":

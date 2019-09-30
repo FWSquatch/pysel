@@ -22,7 +22,10 @@ def Update_settings(setting):
         else:
             return False        
     elif setting == 'mainRepoEnabled':
-        if Utils.string_exists('/etc/apt/sources.list', '^deb.*main$'):
+        if Utils.string_exists('/etc/apt/sources.list', '^deb.*main*'):
             return True
         else:
             return False        
+
+
+print(Update_settings('mainRepoEnabled'))
