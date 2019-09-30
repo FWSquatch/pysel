@@ -24,7 +24,7 @@ def Secure_sysctl(flaw):
             return True
         else:
             return False
-    elif flaw == 'EnableReversePathFiltering': ## Source routed packets can allow packets through untrusted interfaces
+    elif flaw == 'EnableReversePathFiltering': ## Helps prevent IP spoofing attacks
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.conf.all.rp_filter.*=.*1'):
             return True
         else:
@@ -39,3 +39,32 @@ def Secure_sysctl(flaw):
             return True
         else:
             return False  
+'''
+  Possible improvements:
+  - Comparing sysctl key pairs with scan profile
+    - kernel.core_uses_pid (exp: 1)                           
+    - kernel.ctrl-alt-del (exp: 0)                            
+    - kernel.kptr_restrict (exp: 1)                           
+    - kernel.sysrq (exp: 0)                                   
+    - net.ipv4.conf.all.accept_redirects (exp: 0)             
+    - net.ipv4.conf.all.accept_source_route (exp: 0)          
+    - net.ipv4.conf.all.bootp_relay (exp: 0)                  
+    - net.ipv4.conf.all.forwarding (exp: 0)                   
+    - net.ipv4.conf.all.log_martians (exp: 1)                 
+    - net.ipv4.conf.all.mc_forwarding (exp: 0)                
+    - net.ipv4.conf.all.proxy_arp (exp: 0)                    
+    - net.ipv4.conf.all.rp_filter (exp: 1)                    
+    - net.ipv4.conf.all.send_redirects (exp: 0)               
+    - net.ipv4.conf.default.accept_redirects (exp: 0)         
+    - net.ipv4.conf.default.accept_source_route (exp: 0)      
+    - net.ipv4.conf.default.log_martians (exp: 1)             
+    - net.ipv4.icmp_echo_ignore_broadcasts (exp: 1)           
+    - net.ipv4.icmp_ignore_bogus_error_responses (exp: 1)     
+    - net.ipv4.tcp_syncookies (exp: 1)                        
+    - net.ipv4.tcp_timestamps (exp: 0)                        
+    - net.ipv6.conf.all.accept_redirects (exp: 0)             
+    - net.ipv6.conf.all.accept_source_route (exp: 0)          
+    - net.ipv6.conf.default.accept_redirects (exp: 0)         
+    - net.ipv6.conf.default.accept_source_route (exp: 0)      
+
+'''
