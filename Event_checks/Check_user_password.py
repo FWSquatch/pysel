@@ -6,8 +6,9 @@ def Check_user_password(user_parameter):
     if check == 'NoPassword':  ## User now has a password
         command = 'passwd -S ' + user
         pwReport = (Utils.run_command(command)).decode().split()
+        print(pwReport)
         if pwReport[1] == 'NP':
-            return False
+            return False 
         else:
             return True
 
