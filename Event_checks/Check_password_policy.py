@@ -103,6 +103,18 @@ def Check_password_policy(parameter_value):
                 if re.search(searchString, line):
                     return True
             return False  
+
+    if ":" in parameter_value: ## Does our parameter also have a value (i.e. minlen:8)
+        parameter, value = parameter_value.split(':')[0], int(parameter_value.split(':')[1])
+        if parameter == 'Remember':
+            searchString = '^\s*[^\s*#].*remember=([^\s]+)' ## How many passwords to remember
+            for line in f.readlines():
+                if re.search(searchString, line):
+                    checkValue = re.findall('remember=([^\s]+)', line)
+                    if int(checkValue[0]) >= value:  
+                        return True
+            return False  
+
     if parameter_value == 'RejectUsername':
         searchString = '^\s*[^\s*#].*reject_username' ## Do not use name of user in straight or reversed form
         if Utils.string_exists(pwfile, searchString):
