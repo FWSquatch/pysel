@@ -24,3 +24,4 @@ from .Check_user_password import Check_user_password
 from .Check_password_policy import Check_password_policy
 from .Check_account_lockout import Check_account_lockout
 from .Kernel_harden import Kernel_harden
+from .Package_updated import Package_updated

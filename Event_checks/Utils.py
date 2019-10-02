@@ -62,3 +62,14 @@ class Utils:
             return False
         else:
             return True
+    
+    @staticmethod
+    def package_updated(package, initialversion):
+        command = 'apt-cache policy ' + package
+        cmd = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        installed = cmd.stdout.read().decode('utf-8').split('\n')[1]
+        if initialversion not in installed:
+            return False
+        else:
+            return True
+ 
