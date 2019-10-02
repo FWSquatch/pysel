@@ -22,3 +22,4 @@ from .Bad_file import Bad_file
 from .Secure_sysctl import Secure_sysctl
 from .Check_user_password import Check_user_password
 from .Check_password_policy import Check_password_policy
+from .Check_account_lockout import Check_account_lockout

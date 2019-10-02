@@ -4,7 +4,9 @@ from .Utils import Utils
 import re
 def Check_password_policy(parameter_value):
     pwfile = '/etc/pam.d/common-password'
+    authfile = 'common-auth'
     f = open(pwfile, 'r')
+    g = open(authfile, 'r')
     if ":" in parameter_value: ## Does our parameter also have a value (i.e. minlen:8)
         parameter, value = parameter_value.split(':')[0], int(parameter_value.split(':')[1])
         if parameter == 'MinLen':
@@ -93,6 +95,14 @@ def Check_password_policy(parameter_value):
                         return True
             return False    
 
+    if ":" in parameter_value: ## Does our parameter also have a value (i.e. minlen:8)
+        parameter, value = parameter_value.split(':')[0], int(parameter_value.split(':')[1])
+        if parameter == 'LockoutTally':
+            searchString = '(?i)^\s*auth[^\n]*pam_tally2.so[^\n]*deny=[0-9]+' ## Do not use words in the gecos field of passwd
+            for line in g.readlines():
+                if re.search(searchString, line):
+                    return True
+            return False  
     if parameter_value == 'RejectUsername':
         searchString = '^\s*[^\s*#].*reject_username' ## Do not use name of user in straight or reversed form
         if Utils.string_exists(pwfile, searchString):
