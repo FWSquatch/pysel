@@ -1,5 +1,7 @@
 from .Utils import Utils
 
+## Sources: https://github.com/virtadpt/ubuntu-hardening/blob/master/16.04-lts/login.defs 
+
 def Secure_login_defs(flaw):
     if flaw == 'PasswordMaxDays':
         if Utils.string_exists('/etc/login.defs', '^PASS_MAX_DAYS\t99999'):
@@ -28,6 +30,6 @@ def Secure_login_defs(flaw):
             return True
     elif flaw == 'SuLogFile':
         if Utils.string_exists('/etc/login.defs', '^SULOG_FILE'):
-            return False
-        else:
             return True
+        else:
+            return False

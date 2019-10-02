@@ -1,7 +1,7 @@
 from .Utils import Utils
 
-## Used this guide to decide how/what to score:
-## https://www.sysadmin.md/hardening-existing-linux-server-via-sysctl-parameters.html
+## Sources: https://www.sysadmin.md/hardening-existing-linux-server-via-sysctl-parameters.html
+##          https://security.stackexchange.com/questions/209529/what-does-enabling-kernel-unprivileged-userns-clone-do 
 
 def Secure_sysctl(flaw):
     if flaw == 'TcpSynFloodProtection': ## Prevent SYN flood DDoS attacks
@@ -39,6 +39,12 @@ def Secure_sysctl(flaw):
             return True
         else:
             return False  
+    elif flaw == 'DisableUnprivilgedUserNs': ## Disable unprivilged user namespaces. Reduces attack surface of he kernel
+        if Utils.string_exists('/etc/sysctl.conf', '^kernel.unprivileged_userns_clone.*=.*1'):
+            return True
+        else:
+            return False
+
 '''
   Possible improvements:
   - Comparing sysctl key pairs with scan profile
