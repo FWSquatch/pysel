@@ -3,7 +3,6 @@ Description=PySEL Scoring Service
 
 [Service]
 Type=simple
-ExecStartPre=-/bin/sleep 45
 ExecStart=/usr/bin/python3 /usr/local/bin/dist/score.py
 
 [Install]

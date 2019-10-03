@@ -1,4 +1,4 @@
-import re, subprocess, sys, os, time, requests
+import re, subprocess, sys, os, time
 
 class Event:
     def __init__(self, name, kw1, kw2, tag, points, description, status):
@@ -167,18 +167,9 @@ def check_event(eventString):
             print(eventString.points,eventString.description) # DEBUG
         else:
             eventString.status = 'MISS'    
-
-    elif eventString.name == "programnotversion":
-        if check_program_not_version(eventString.kw1, eventString.kw2):
-            eventString.status = 'HIT'
-            addScore = eventString.points
-            print(eventString.points,eventString.description) # DEBUG
-        else:
-            eventString.status = 'MISS'
-
     
     elif eventString.name == "checkforensics":
-        answer = eventString.kw2
+        answer = 'ANSWER: ' + eventString.kw2
         if string_exists(eventString.kw1, answer):
             eventString.status = 'HIT'
             addScore = eventString.points
@@ -337,14 +328,6 @@ def check_program_version(programName, version): # Is programName the correct ve
     else:
         return False
 
-def check_program_not_version(programName, version): # programName should NOT be this version
-    version = "Installed: " + version
-    output = subprocess.check_output(["apt-cache", "policy", programName]).decode("utf-8")
-    if version in output:
-        return False
-    else:
-        return True
-
 def user_in_group(userName, groupName): # Is userName in groupName?
     proc = subprocess.Popen(['grep', groupName, '/etc/group'], stdout=subprocess.PIPE)
     output = proc.stdout.read().decode("utf-8")
@@ -432,7 +415,7 @@ for j in range(numEvents):
     eventList[j].status = master[j][6]
 
 runningScore = 0
-while True: # Fire the scoring engine every 60 seconds
+while True: # Fire the scoring engine every 30 seconds
     possibleScore = 0
     totalScore = 0
     draw_head(SCORE_REPORT_LOCATION)
@@ -453,15 +436,4 @@ while True: # Fire the scoring engine every 60 seconds
         subprocess.call(["/bin/bash", "/usr/local/bin/notify.sh", "-t","10000", "-i", "/cyberpatriot/lose-points.png", "PySel Message:", "YOU HAVE LOST POINTS!!!"])
         runningScore = totalScore
         print(runningScore,totalScore)
-    if (os.path.exists('/usr/local/bin/TEAM')):
-        f = open('/usr/local/bin/TEAM', 'r')
-        teamName = f.readline()
-        f.close()   
-        playerName = "Ubuntu-R1"
-        scoreCommand = "http://moodle.centraltech.edu/scoreboard/simple-scoreboard.php?mode=send&game=cp&team="+teamName+"&player="+playerName+"&score="+str(runningScore)
-        print('sending', scoreCommand)
-        r = requests.get(scoreCommand) 
-        print(r.status_code) 
-    else:
-        print("No TEAM!")
-    time.sleep(60)
+    time.sleep(30)

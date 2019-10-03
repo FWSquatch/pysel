@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Set Team ID
-Comment=Set your Team ID here
-Exec=/cyberpatriot/setid.sh
-Icon=/cyberpatriot/cp.png
-Terminal=true
-Type=Application
