@@ -25,6 +25,7 @@ if [ -z "$scorelocation" ] ; then
 else
     echo -e '#!usr/bin/env python3\n\nSCORE_REPORT_LOCATION = '\"$scorelocation\" > score.py
 fi
+
 echo -e 'DONE\nReading configuration file'
 python3 readconfig.py config.xlsx
 
@@ -33,9 +34,10 @@ cat pysel.py >> score.py
 
 echo -e 'DONE\nObfuscating scoring engine'
 sudo pyarmor obfuscate score.py
-mv dist /usr/local/bin/
+#mv dist /usr/local/bin/
+cp -R dist /usr/local/bin/
 
-echo -e 'DONE\nMoving score.py and notify.sh'
+#echo -e 'DONE\nCopying score.py and notify.sh'
 #mv score.py /usr/local/bin/scoreservice
 #chmod 755 /usr/local/bin/scoreservice
 cp notify.sh /usr/local/bin/notify.sh
@@ -45,6 +47,14 @@ echo -e 'DONE\nCreating /cyberpatriot directory'
 mkdir -p /cyberpatriot
 cp *.png /cyberpatriot/
 cp *.wav /cyberpatriot/
+
+echo -e 'DONE\nCreating Team ID Changer'
+#chown $(id -nu 1000):$(id -nu 1000) SetTeam.desktop
+cp SetTeam.desktop '/home/'$(id -nu 1000)'/Desktop/'
+chmod 777 '/home/'$(id -nu 1000)'/Desktop/SetTeam.desktop'
+cp setid.sh /cyberpatriot/
+chmod +x /cyberpatriot/setid.sh
+chmod 777 /usr/local/bin/
 
 echo -e 'DONE\nRegistering scoring service'
 cp pysel_scoring.service /etc/systemd/system/
