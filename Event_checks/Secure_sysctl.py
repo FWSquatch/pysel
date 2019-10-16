@@ -1,45 +1,48 @@
 from .Utils import Utils
 
+#### THIS MODULE HAS BEEN FOLDED INTO Kernel_harden.py ####
+
+
 ## Sources: https://www.sysadmin.md/hardening-existing-linux-server-via-sysctl-parameters.html
 ##          https://security.stackexchange.com/questions/209529/what-does-enabling-kernel-unprivileged-userns-clone-do 
 
 def Secure_sysctl(flaw):
-    if flaw == 'TcpSynFloodProtection': ## Prevent SYN flood DDoS attacks
+    if flaw == 'TcpSynFloodProtection': 
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.tcp_syncookies=.*1'):
             return True
         else:
             return False
-    elif flaw == 'IgnoreIcmpBroadcasts': ## Prevent Smurf attacks
+    elif flaw == 'IgnoreIcmpBroadcasts': 
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.icmp_echo_ignore_broadcasts.*=.*1'):
             return True
         else:
             return False
-    elif flaw == 'RejectIcmpRedirects': ## This is not a router, so don't redirect
+    elif flaw == 'RejectIcmpRedirects': 
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.conf.all.accept_redirects.*=.*0'):
             return True
         else:
             return False
-    elif flaw == 'DisableSourceRoutedPackets': ## Source routed packets can allow packets through untrusted interfaces
+    elif flaw == 'DisableSourceRoutedPackets': 
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.conf.all.accept_source_route.*=.*0'):
             return True
         else:
             return False
-    elif flaw == 'EnableReversePathFiltering': ## Helps prevent IP spoofing attacks
+    elif flaw == 'EnableReversePathFiltering': 
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.conf.all.rp_filter.*=.*1'):
             return True
         else:
             return False
-    elif flaw == 'LogMartianPackets': ## Log packets from impossible (martian) ip addresses
+    elif flaw == 'LogMartianPackets': 
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.conf.all.log_martians.*=.*1'):
             return True
         else:
             return False    
-    elif flaw == 'DisableSendIcmpRedirects': ## Only routers would do this. We are not a router
+    elif flaw == 'DisableSendIcmpRedirects': 
         if Utils.string_exists('/etc/sysctl.conf', '^net.ipv4.conf.all.send_redirects.*=.*0'):
             return True
         else:
             return False  
-    elif flaw == 'DisableUnprivilgedUserNs': ## Disable unprivilged user namespaces. Reduces attack surface of he kernel
+    elif flaw == 'DisableUnprivilgedUserNs': 
         if Utils.string_exists('/etc/sysctl.conf', '^kernel.unprivileged_userns_clone.*=.*1'):
             return True
         else:
