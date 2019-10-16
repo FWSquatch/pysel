@@ -25,3 +25,5 @@ from .Check_password_policy import Check_password_policy
 from .Check_account_lockout import Check_account_lockout
 from .Kernel_harden import Kernel_harden
 from .Package_updated import Package_updated
+from .File_no_longer_contains import File_no_longer_contains
+from .File_now_contains import File_now_contains
