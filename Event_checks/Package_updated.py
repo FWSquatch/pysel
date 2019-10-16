@@ -1,2 +1,2 @@
-def Package_updated():
+def Package_updated(null):
     pass

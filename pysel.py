@@ -3,7 +3,7 @@ import subprocess
 import time
 import Event_checks
 import hashlib
-import request
+import requests
 DEBUG = True
 scoreReport = '/home/jdavis/Desktop/score.html'
 
@@ -94,9 +94,9 @@ class Pysel:
 
             if self.general['General:Options']['remotereportingenabled'] == "yes":
                 url = self.general['General:Options']['remotereportingserver']
-                url += f"/ss/ss.php?mode=send&game=okcyberrun_r1&team={self.team['team_id']}&player={self.general['General:Options']['remotereportinground']}&score={str(self.currentScore)}&md5={str(self.__hash_score__(self.currentScore))}"
+                url += "/ss/ss.php?mode=send&game=okcyberrun_r1&team={self.team['team_id']}&player={self.general['General:Options']['remotereportinground']}&score={str(self.currentScore)}&md5={str(self.__hash_score__(self.currentScore))}"
                 print('sending', url)
-                r = requests.get(scoreCommand) 
+                r = requests.get(url) 
                 print(r.status_code, r.text) 
 
             print('You have', timeLeft, 'minutes remaining.\n\n')

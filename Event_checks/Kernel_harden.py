@@ -40,7 +40,7 @@ def Kernel_harden(parameter_value):
         if Utils.string_exists('/proc/sys/net/ipv4/conf/default/accept_source_route',0):
             return True
     elif parameter_value == 'BootPReplay':
-        if Utils.string_exists('/proc/sys/net/ipv4/conf/all/bootp_relay',0:
+        if Utils.string_exists('/proc/sys/net/ipv4/conf/all/bootp_relay',0):
             return True
     elif parameter_value == 'Ipv4Forwarding':
         if Utils.string_exists('/proc/sys/net/ipv4/conf/all/forwarding',0):
