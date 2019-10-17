@@ -4,7 +4,7 @@ import time
 import Event_checks
 import hashlib
 import requests
-DEBUG = True
+DEBUG = False
 scoreReport = '/home/jdavis/Desktop/score.html'
 
 class Pysel:
@@ -47,8 +47,32 @@ class Pysel:
         pass
         #subprocess.call(["/usr/bin/aplay", file])
 
-    def update_html(self):
+    def draw_html_head(self):
+        f = open('ScoreReport.html', 'w')
+        f.write('<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head><body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><div align="center"><H2>Score Report</H2></div><br><table border="1"; align="center"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
+        f.close()
+
+    def update_html_body(self, score, event, parameter, tag):
+        if score == 'MISS':
+            payload = '<tr bgcolor="gray"><td>' + str(score) + '</td><td>' + str(event) + parameter + '</td><td>' + tag + '</td></tr>'
+        else:
+            if int(score) < 0:
+                payload = '<tr bgcolor="red"><td>' + str(score) + '</td><td>' + str(event) + parameter + '</td><td>' + tag + '</td></tr>'
+            else:
+                payload = '<tr bgcolor="green"><td>' + str(score) + '</td><td>' + str(event) + parameter + '</td><td>' + tag + '</td></tr>'
+            
+        f = open('ScoreReport.html', 'a')
+        f.write(payload)
+        f.write('\n')
+        f.close()
         pass
+
+    def draw_html_tail(self, currentScore, totalScore):
+        f = open('ScoreReport.html', 'a')
+        payload = '</table><div align="center"><br><H3>Total Score: ' + currentScore + ' out of ' + totalScore + '<H3></div><hr><br><div align="center">'
+        f.write(payload)
+        f.close()
+
 
     def send_notification(self):
         pass
@@ -59,6 +83,7 @@ class Pysel:
     
         initialScore = 0
         while True:
+            self.draw_html_head()
             print('     +------------------------------+')
             print('     |      PySEL Score Report      |')
             print('     |       ' + self.general['General:Options']['remotereportinground'] + "        |")
@@ -75,10 +100,12 @@ class Pysel:
                     for parameter in params:
                         ## Eval the event to call the correct Event_checks function
                         if eval("Event_checks."+name.split(":")[1]+"(parameter)"):
-                            print('[X] ',event['pointvalue'], 'pts for',event['msg'], parameter )
+                            print('[X] ',event['pointvalue'], 'pts for',event['msg'], parameter)
                             self.currentScore += int(event['pointvalue'])
+                            self.update_html_body(event['pointvalue'], event['msg'], parameter, name.split(':')[0])
                         else:
                             if DEBUG == True and int(event['pointvalue']) > 0:
+                                    self.update_html_body('MISS', event['msg'], parameter, name.split(':')[0])
                                     print("[ ]  0 pts for",event['msg'], parameter)
             
             ## Did we gain or lose points?
@@ -91,6 +118,7 @@ class Pysel:
 
             initialScore = self.currentScore
             print('Current score: {} out of {}'.format(self.currentScore, self.possibleScore))
+            self.draw_html_tail(str(self.currentScore), str(self.possibleScore))
 
             if self.general['General:Options']['remotereportingenabled'] == "yes":
                 url = self.general['General:Options']['remotereportingserver']
