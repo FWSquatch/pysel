@@ -219,8 +219,8 @@ def check_event(eventString):
             eventString.status = 'HIT'
             addScore = eventString.points
             print(eventString.points,eventString.description) # DEBUG
-    elif eventString.name == "emptypassword":
-        if empty_password(eventString.kw1):
+    elif eventString.name == "weakpassword":
+        if weak_password(eventString.kw1):
             eventString.status = 'MISS'
         else:
             eventString.status = 'HIT'
@@ -353,13 +353,12 @@ def user_in_group(userName, groupName): # Is userName in groupName?
     else:
         return False
 
-def empty_password(userName): # Does userName have an empty password?
-    blankPass = userName + "::"
-    if string_exists('/etc/shadow',blankPass):
-        return True
+def weak_password(userName): # Does userName have an weak password?
+    strongPass = userName + ":$"
+    if string_exists('/etc/shadow',strongPass):
+        return False
     else:
-        return
-        False
+        return True
 
 def service_running(serviceName): # Check to see if a service is running
     procFound = 0
@@ -457,7 +456,7 @@ while True: # Fire the scoring engine every 60 seconds
         f = open('/usr/local/bin/TEAM', 'r')
         teamName = f.readline()
         f.close()   
-        playerName = "Ubuntu-R1"
+        playerName = "Ubuntu-R2"
         scoreCommand = "http://moodle.centraltech.edu/scoreboard/simple-scoreboard.php?mode=send&game=cp&team="+teamName+"&player="+playerName+"&score="+str(runningScore)
         print('sending', scoreCommand)
         r = requests.get(scoreCommand) 
