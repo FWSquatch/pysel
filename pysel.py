@@ -456,7 +456,7 @@ while True: # Fire the scoring engine every 60 seconds
         f = open('/usr/local/bin/TEAM', 'r')
         teamName = f.readline()
         f.close()   
-        playerName = "Ubuntu-R1"
+        playerName = "Ubuntu-R2"
         scoreCommand = "http://moodle.centraltech.edu/scoreboard/simple-scoreboard.php?mode=send&game=cp&team="+teamName+"&player="+playerName+"&score="+str(runningScore)
         print('sending', scoreCommand)
         r = requests.get(scoreCommand) 
