@@ -16,7 +16,16 @@ for module in xlrd pyarmor; do
     pip3 install $module
 done
 
-defaultlocation='/home/'$(id -nu 1000)'/Desktop/score.html'
+defaultuser=$(getent passwd 1000 | cut -d: -f 1)
+echo -e "The default user is currently set to" $defaultuser
+echo -e "Press [enter] to keep this user or enter a new default user:"
+read cpuser
+if [ -z "$cpuser" ] ; then
+    cpuser=$defaultuser
+else :    
+fi
+
+defaultlocation='/home/'$cpuser'/Desktop/score.html'
 echo -e "The score report location is currently set to "$defaultlocation
 echo -e 'Press [enter] to keep it there or enter a new location:'
 read scorelocation
@@ -49,15 +58,14 @@ cp *.png /cyberpatriot/
 cp *.wav /cyberpatriot/
 
 echo -e 'DONE\nCreating Team ID Changer'
-#chown $(id -nu 1000):$(id -nu 1000) SetTeam.desktop
-cp SetTeam.desktop '/home/'$(id -nu 1000)'/Desktop/'
-chmod 777 '/home/'$(id -nu 1000)'/Desktop/SetTeam.desktop'
+chown $cpuser:$cpuser SetTeam.desktop
+cp SetTeam.desktop '/home/'$cpuser'/Desktop/'
+chmod 777 '/home/'$cpuser'/Desktop/SetTeam.desktop'
 cp setid.sh /cyberpatriot/
 chmod +x /cyberpatriot/setid.sh
 chmod 777 /usr/local/bin/
 
 echo -e 'DONE\nRegistering scoring service'
-cp pysel_scoring.service /etc/systemd/system/
-systemctl enable pysel_scoring.service
-systemctl start pysel_scoring.service
-
+#cp pysel_scoring.service /etc/systemd/system/
+#systemctl enable pysel_scoring.service
+#systemctl start pysel_scoring.service
