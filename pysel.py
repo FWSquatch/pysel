@@ -219,8 +219,8 @@ def check_event(eventString):
             eventString.status = 'HIT'
             addScore = eventString.points
             print(eventString.points,eventString.description) # DEBUG
-    elif eventString.name == "emptypassword":
-        if empty_password(eventString.kw1):
+    elif eventString.name == "weakpassword":
+        if weak_password(eventString.kw1):
             eventString.status = 'MISS'
         else:
             eventString.status = 'HIT'
@@ -353,13 +353,12 @@ def user_in_group(userName, groupName): # Is userName in groupName?
     else:
         return False
 
-def empty_password(userName): # Does userName have an empty password?
-    blankPass = userName + "::"
-    if string_exists('/etc/shadow',blankPass):
-        return True
+def weak_password(userName): # Does userName have an weak password?
+    strongPass = userName + ":$"
+    if string_exists('/etc/shadow',strongPass):
+        return False
     else:
-        return
-        False
+        return True
 
 def service_running(serviceName): # Check to see if a service is running
     procFound = 0
