@@ -6,7 +6,7 @@ import hashlib
 import requests
 
 DEBUG = False
-scoreReport = '/home/jdavis/Desktop/score.html'
+scoreReportLocation = ''
 
 class Pysel:
 
@@ -53,7 +53,7 @@ class Pysel:
         #subprocess.call(["/usr/bin/aplay", file])
 
     def draw_html_head(self):
-        f = open('ScoreReport.html', 'w')
+        f = open(self.general['General:Options']['scorereportlocation'], 'w')
         f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><div align="center"><H2>Score Report</H2></div><br><table border="1"; align="center"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
         f.close()
 
@@ -66,14 +66,14 @@ class Pysel:
             else:
                 payload = '<tr bgcolor="green"><td>' + str(score) + '</td><td>' + str(event) + parameter + '</td><td>' + tag + '</td></tr>'
             
-        f = open('ScoreReport.html', 'a')
+        f = open(self.general['General:Options']['scorereportlocation'], 'a')
         f.write(payload)
         f.write('\n')
         f.close()
         pass
 
     def draw_html_tail(self, currentScore, totalScore):
-        f = open('ScoreReport.html', 'a')
+        f = open(self.general['General:Options']['scorereportlocation'], 'a')
         payload = '</table><div align="center"><br><H3>Total Score: ' + currentScore + ' out of ' + totalScore + '</H3></div><hr><br>\n<div align="center">Last updated: ' + str(time.ctime()) + '</div></body></html>'
         f.write(payload)
         f.close()
