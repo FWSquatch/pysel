@@ -26,3 +26,4 @@ from .Kernel_harden import Kernel_harden
 from .Package_updated import Package_updated
 from .File_no_longer_contains import File_no_longer_contains
 from .File_now_contains import File_now_contains
+from .Weak_password import Weak_password

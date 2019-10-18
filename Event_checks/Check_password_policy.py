@@ -10,7 +10,7 @@ def Check_password_policy(parameter_value):
     if ":" in parameter_value: ## Does our parameter also have a value (i.e. minlen:8)
         parameter, value = parameter_value.split(':')[0], int(parameter_value.split(':')[1])
         if parameter == 'MinLen':
-            searchString = '^\s*[^\s*#].*minlen=([^\s]+)' ## Find uncommented lines with minlen= in them
+            searchString = '^(?!#).*minlen=([^\s]+)'
             for line in f.readlines():
                 if re.search(searchString, line):
                     length = re.findall('minlen=([^\s]+)', line)

@@ -36,6 +36,7 @@ class Pysel:
                 if self.events[section]['enabled'] == 'yes':
                     if int(self.events[section]['pointvalue']) > 0:
                         self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
+        print((self.events))
         print(self.general)
         if self.general['General:Options']['debug'] == 'yes':
             global DEBUG
@@ -58,13 +59,18 @@ class Pysel:
         f.close()
 
     def update_html_body(self, score, event, parameter, tag):
+        if '%VALUE%' not in event:
+          reportedEvent = event
+        else:
+          reportedEvent = str(event).replace('%VALUE%', parameter)
         if score == 'MISS':
-            payload = '<tr bgcolor="gray"><td>' + str(score) + '</td><td>' + str(event) + parameter + '</td><td>' + tag + '</td></tr>'
+             payload = '<tr bgcolor="lightgray"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
+
         else:
             if int(score) < 0:
-                payload = '<tr bgcolor="red"><td>' + str(score) + '</td><td>' + str(event) + parameter + '</td><td>' + tag + '</td></tr>'
+                payload = '<tr bgcolor="red"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
             else:
-                payload = '<tr bgcolor="green"><td>' + str(score) + '</td><td>' + str(event) + parameter + '</td><td>' + tag + '</td></tr>'
+                payload = '<tr bgcolor="lightgreen"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
             
         f = open(self.general['General:Options']['scorereportlocation'], 'a')
         f.write(payload)
