@@ -1,1 +1,5 @@
 test.json
+*.pyc
+*.pyc
+*.pyc
+__pycache__

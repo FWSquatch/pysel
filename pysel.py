@@ -4,6 +4,7 @@ import time
 import Event_checks
 import hashlib
 import requests
+
 DEBUG = False
 scoreReport = '/home/jdavis/Desktop/score.html'
 
@@ -35,8 +36,12 @@ class Pysel:
                 if self.events[section]['enabled'] == 'yes':
                     if int(self.events[section]['pointvalue']) > 0:
                         self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
-    
         print(self.general)
+        if self.general['General:Options']['debug'] == 'yes':
+            global DEBUG
+            DEBUG = True
+        
+    
     def __hash_score__(self, score):
         hashstring = str(score) + 'qwerty'
         hashedval = hashlib.md5(hashstring.encode('utf-8').rstrip())
@@ -49,7 +54,7 @@ class Pysel:
 
     def draw_html_head(self):
         f = open('ScoreReport.html', 'w')
-        f.write('<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head><body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><div align="center"><H2>Score Report</H2></div><br><table border="1"; align="center"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
+        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><div align="center"><H2>Score Report</H2></div><br><table border="1"; align="center"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
         f.close()
 
     def update_html_body(self, score, event, parameter, tag):
@@ -69,7 +74,7 @@ class Pysel:
 
     def draw_html_tail(self, currentScore, totalScore):
         f = open('ScoreReport.html', 'a')
-        payload = '</table><div align="center"><br><H3>Total Score: ' + currentScore + ' out of ' + totalScore + '<H3></div><hr><br><div align="center">'
+        payload = '</table><div align="center"><br><H3>Total Score: ' + currentScore + ' out of ' + totalScore + '</H3></div><hr><br>\n<div align="center">Last updated: ' + str(time.ctime()) + '</div></body></html>'
         f.write(payload)
         f.close()
 

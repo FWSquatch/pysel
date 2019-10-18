@@ -19,7 +19,6 @@ from .Perm_now_equal_to import Perm_now_equal_to
 from .Kernel_updated import Kernel_updated
 from .Update_settings import Update_settings
 from .Bad_file import Bad_file
-from .Secure_sysctl import Secure_sysctl
 from .Check_user_password import Check_user_password
 from .Check_password_policy import Check_password_policy
 from .Check_account_lockout import Check_account_lockout

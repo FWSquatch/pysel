@@ -4,7 +4,7 @@ from .Utils import Utils
 import re
 def Check_password_policy(parameter_value):
     pwfile = '/etc/pam.d/common-password'
-    authfile = 'common-auth'
+    authfile = '/etc/pam.d/common-auth'
     f = open(pwfile, 'r')
     g = open(authfile, 'r')
     if ":" in parameter_value: ## Does our parameter also have a value (i.e. minlen:8)
