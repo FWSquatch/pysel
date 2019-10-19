@@ -23,7 +23,9 @@ from .Check_user_password import Check_user_password
 from .Check_password_policy import Check_password_policy
 from .Check_account_lockout import Check_account_lockout
 from .Kernel_harden import Kernel_harden
-from .Package_updated import Package_updated
+from .Package_updated_latest import Package_updated_latest
+from .Package_updated_to_version import Package_updated_to_version
 from .File_no_longer_contains import File_no_longer_contains
 from .File_now_contains import File_now_contains
 from .Weak_password import Weak_password
+from .Prohibited_processes import Prohibited_processes

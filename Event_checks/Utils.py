@@ -36,6 +36,17 @@ class Utils:
             return False
 
     @staticmethod
+    def process_running(process):
+        check_process = 'sudo pgrep ' + process
+        output = Utils.run_command(check_process)
+        print(output.decode())
+        if output.decode() == "":
+            print('RETURNING TRUE')
+            return True
+        else:
+            return False
+
+    @staticmethod
     def user_in_group(user, group):
         command = "grep " + group + " /etc/group"
         output = Utils.run_command(command).decode().rstrip().split(":")
