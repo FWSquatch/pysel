@@ -39,7 +39,7 @@ class Utils:
     def user_in_group(user, group):
         command = "grep " + group + " /etc/group"
         output = Utils.run_command(command).decode().rstrip().split(":")
-        if user in output:
+        if any(user in oyeah for oyeah in output):
             return True
         else:
             return False
