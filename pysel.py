@@ -4,6 +4,8 @@ import time
 import Event_checks
 import hashlib
 import requests
+from collections import OrderedDict
+
 
 DEBUG = False
 scoreReportLocation = ''
@@ -36,8 +38,8 @@ class Pysel:
                 if self.events[section]['enabled'] == 'yes':
                     if int(self.events[section]['pointvalue']) > 0:
                         self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
-        print((self.events))
-        print(self.general)
+        self.sortedEvents = OrderedDict(sorted(self.events.items()))
+        
         if self.general['General:Options']['debug'] == 'yes':
             global DEBUG
             DEBUG = True
@@ -59,10 +61,10 @@ class Pysel:
         f.close()
 
     def update_html_body(self, score, event, parameter, tag):
-        if '%VALUE%' not in event:
+        if '%PARAMETER%' not in event:
           reportedEvent = event
         else:
-          reportedEvent = str(event).replace('%VALUE%', parameter)
+          reportedEvent = str(event).replace('%PARAMETER%', parameter)
         if score == 'MISS':
              payload = '<tr bgcolor="lightgray"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
 
@@ -101,7 +103,7 @@ class Pysel:
             print('     +------------------------------+')
 
             self.currentScore = 0
-            for name, event in self.events.items():
+            for name, event in self.sortedEvents.items():
             
             ## parse the parameters list
                 if event['enabled'] != "yes":
@@ -111,12 +113,12 @@ class Pysel:
                     for parameter in params:
                         ## Eval the event to call the correct Event_checks function
                         if eval("Event_checks."+name.split(":")[1]+"(parameter)"):
-                            print('[X] ',event['pointvalue'], 'pts for',event['msg'], parameter)
+                            print('[X] ',event['pointvalue'], 'pts for',event['tag'], parameter)
                             self.currentScore += int(event['pointvalue'])
-                            self.update_html_body(event['pointvalue'], event['msg'], parameter, name.split(':')[0])
+                            self.update_html_body(event['pointvalue'], event['msg'], parameter, event['tag'])
                         else:
                             if DEBUG == True and int(event['pointvalue']) > 0:
-                                    self.update_html_body('MISS', event['msg'], parameter, name.split(':')[0])
+                                    self.update_html_body('MISS', event['msg'], parameter, event['tag'])
                                     print("[ ]  0 pts for",event['msg'], parameter)
             
             ## Did we gain or lose points?
