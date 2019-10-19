@@ -1,10 +1,6 @@
 test.json
 *.pyc
-*.pyc
-*.pyc
-__pycache__
-*.pyc
-*.pyc
+Event_checks/__pycache__/
 Event_checks/__pycache__/__init__.cpython-36.pyc
 Event_checks/__pycache__/Add_to_group.cpython-36.pyc
 Event_checks/__pycache__/Add_to_sudo.cpython-36.pyc

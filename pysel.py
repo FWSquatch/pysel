@@ -5,10 +5,11 @@ import Event_checks
 import hashlib
 import requests
 from collections import OrderedDict
-
+import os
 
 DEBUG = False
 scoreReportLocation = ''
+teamIdLocation = '/usr/local/bin/dist/TEAM'
 
 class Pysel:
 
@@ -55,9 +56,9 @@ class Pysel:
         pass
         #subprocess.call(["/usr/bin/aplay", file])
 
-    def draw_html_head(self):
+    def draw_html_head(self, team, round):
         f = open(self.general['General:Options']['scorereportlocation'], 'w')
-        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><div align="center"><H2>Score Report</H2></div><br><table border="1"; align="center"><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
+        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><br><table border="1"; align="center"><tr><td colspan=3><div align="center"><b>Team: ' + team + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round: ' + round + '</b></div></td></tr><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
         f.close()
 
     def update_html_body(self, score, event, parameter, tag):
@@ -70,7 +71,7 @@ class Pysel:
 
         else:
             if int(score) < 0:
-                payload = '<tr bgcolor="red"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
+                payload = '<tr bgcolor="lightred"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
             else:
                 payload = '<tr bgcolor="lightgreen"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
             
@@ -78,7 +79,14 @@ class Pysel:
         f.write(payload)
         f.write('\n')
         f.close()
-        pass
+
+    def get_team_id(self, teamIdLocation):
+        if os.path.exists(teamIdLocation):
+            f = open(teamIdLocation, 'r')
+            team = f.readline()
+        else:
+            team = '<font color="red">NO TEAM!</font>'
+        return (team)
 
     def draw_html_tail(self, currentScore, totalScore):
         f = open(self.general['General:Options']['scorereportlocation'], 'a')
@@ -96,11 +104,11 @@ class Pysel:
     
         initialScore = 0
         while True:
-            self.draw_html_head()
-            print('     +------------------------------+')
-            print('     |      PySEL Score Report      |')
-            print('     |       ' + self.general['General:Options']['remotereportinground'] + "        |")
-            print('     +------------------------------+')
+            self.draw_html_head(self.get_team_id(teamIdLocation), self.general['General:Options']['remotereportinground'])
+            # print('     +------------------------------+')
+            # print('     |      PySEL Score Report      |')
+            # print('     |       ' + self.general['General:Options']['remotereportinground'] + "        |")
+            # print('     +------------------------------+')
 
             self.currentScore = 0
             for name, event in self.sortedEvents.items():
