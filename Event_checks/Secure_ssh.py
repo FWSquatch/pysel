@@ -31,5 +31,10 @@ def Secure_ssh(flaw):
                 return False
             else:
                 return True
+        elif flaw == 'PermitEmptyPasswordsNo':
+            if Utils.string_exists('/etc/ssh/sshd_config', '^PermitEmptyPasswords yes'):
+                return False
+            else:
+                return True
     else:
         return False

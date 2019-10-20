@@ -7,7 +7,6 @@ class Utils:
     def string_exists(targetFile, searchString):
         try:
             for line in open(targetFile, 'r').readlines():
-                print(line, searchString)
                 if re.search(searchString, line):
                     return True
                 else:
