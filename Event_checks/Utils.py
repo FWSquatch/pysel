@@ -41,9 +41,7 @@ class Utils:
     def process_running(process):
         check_process = 'sudo pgrep ' + process
         output = Utils.run_command(check_process)
-        print(output.decode())
         if output.decode() == "":
-            print('RETURNING TRUE')
             return True
         else:
             return False
