@@ -6,16 +6,21 @@ import hashlib
 import requests
 from collections import OrderedDict
 import os
+import io
 
 DEBUG = False
 scoreReportLocation = ''
-teamIdLocation = '/usr/local/bin/dist/TEAM'
+teamIdLocation = '/usr/local/bin/pysel/TEAM'
+
 
 class Pysel:
 
-    def __init__(self, config_file, team_conf):
+    def __init__(self, s_file, team_conf):
+        buf = io.StringIO(s_file)
         config_parser = configparser.ConfigParser()
-        config_parser.read(config_file)
+        config_parser.read_file(buf)
+#        config_parser = configparser.ConfigParser()
+#        config_parser.read(buf)
        
         team_config = configparser.ConfigParser()
         team_config.read(team_conf)
@@ -37,7 +42,7 @@ class Pysel:
             else:
                 self.events[section] = dict(config_parser._sections[section])
                 if self.events[section]['enabled'] == 'yes':
-                    if int(self.events[section]['pointvalue']) > 0:
+#                    if int(self.events[section]['pointvalue']) > 0:
                         self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
         self.sortedEvents = OrderedDict(sorted(self.events.items()))
         
@@ -150,10 +155,10 @@ class Pysel:
 
             print('You have', timeLeft, 'minutes remaining.\n\n')
             timeLeft -= 1
-            time.sleep(5)
+            time.sleep(60)
             
-    
+ 
 if __name__ == "__main__":
-    Engine = Pysel("PySEL.conf", "team.conf")
+    Engine = Pysel(s_config, "team.conf")
     
     Engine.start_engine()
