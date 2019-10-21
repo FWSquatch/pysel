@@ -42,7 +42,7 @@ class Pysel:
             else:
                 self.events[section] = dict(config_parser._sections[section])
                 if self.events[section]['enabled'] == 'yes':
-#                    if int(self.events[section]['pointvalue']) > 0:
+                    if int(self.events[section]['pointvalue']) > 0:
                         self.possibleScore += (int(self.events[section]['pointvalue']) * len(self.events[section]['parameters'].split()))
         self.sortedEvents = OrderedDict(sorted(self.events.items()))
         
