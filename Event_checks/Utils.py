@@ -1,4 +1,5 @@
 import re
+import glob
 import subprocess
 
 class Utils:
@@ -9,6 +10,8 @@ class Utils:
             for line in open(targetFile, 'r').readlines():
                 if re.search(searchString, line):
                     return True
+                else:
+                    continue
             return False
         except:
             return False
@@ -36,10 +39,19 @@ class Utils:
             return False
 
     @staticmethod
+    def process_running(process):
+        check_process = 'sudo pgrep ' + process
+        output = Utils.run_command(check_process)
+        if output.decode() == "":
+            return True
+        else:
+            return False
+
+    @staticmethod
     def user_in_group(user, group):
         command = "grep " + group + " /etc/group"
         output = Utils.run_command(command).decode().rstrip().split(":")
-        if user in output:
+        if any(user in oyeah for oyeah in output):
             return True
         else:
             return False
@@ -62,3 +74,33 @@ class Utils:
             return False
         else:
             return True
+    
+    @staticmethod
+    def package_updated(package, initialversion):
+        command = 'apt-cache policy ' + package
+        cmd = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        installed = cmd.stdout.read().decode('utf-8').split('\n')[1]
+        if initialversion not in installed:
+            return False
+        else:
+            return True
+ 
+    staticmethod
+    def conf_d_check(directories_searchString): 
+        ## Can seperate directories with | to check multiple directories. Returns last found state
+        ## Ex /etc/lightdm/|/etc/lightdm.conf.d/:greeter-hide-users
+        directories, searchString = directories_searchString.split(':')[0], directories_searchString.split(':')[1]
+        directoryList = directories.split('|')
+        searchStringFalse = "^" + searchString + "=false"
+        searchStringTrue = "^" + searchString + "=true"
+        status = False
+        for directory in directoryList:
+            mydir = directory + '*.conf'
+            fileList = glob.glob(mydir)
+            fileList.sort()
+            for confFile in fileList:
+                if Utils.string_exists(confFile, searchStringTrue):
+                    status = True
+                elif Utils.string_exists(confFile, searchStringFalse):
+                    status = False
+        return status
