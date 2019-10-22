@@ -6,16 +6,39 @@ import hashlib
 import requests
 from collections import OrderedDict
 import os
+import io
 
 DEBUG = False
 scoreReportLocation = ''
-teamIdLocation = '/usr/local/bin/dist/TEAM'
+teamIdLocation = '/usr/local/bin/pysel/TEAM'
+
+## Dump your config here in order to test without installing
+s_config = """
+[General:Options]
+debug = yes
+scoreReportLocation = /home/jdavis/Desktop/ScoreReport.html
+remoteReportingenabled = no
+remoteReportingServer = http://moodle.centraltech.edu
+remoteReportingRound = OK-Cup-StateRd-Ub16
+timeLimit = 150
+
+[10-DisableGuestEtc:Secure_lightdm]
+enabled = yes
+tag = User Management
+pointValue = 5
+parameters = allow-guest greeter-hide-users greeter-show-manual-login
+description = 
+msg = Guest account has been disabled
+"""
 
 class Pysel:
 
-    def __init__(self, config_file, team_conf):
+    def __init__(self, s_file, team_conf):
+        buf = io.StringIO(s_file)
         config_parser = configparser.ConfigParser()
-        config_parser.read(config_file)
+        config_parser.read_file(buf)
+#        config_parser = configparser.ConfigParser()
+#        config_parser.read(buf)
        
         team_config = configparser.ConfigParser()
         team_config.read(team_conf)
@@ -150,10 +173,10 @@ class Pysel:
 
             print('You have', timeLeft, 'minutes remaining.\n\n')
             timeLeft -= 1
-            time.sleep(5)
+            time.sleep(60)
             
-    
+ 
 if __name__ == "__main__":
-    Engine = Pysel("PySEL.conf", "team.conf")
+    Engine = Pysel(s_config, "team.conf")
     
     Engine.start_engine()
