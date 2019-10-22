@@ -12,6 +12,24 @@ DEBUG = False
 scoreReportLocation = ''
 teamIdLocation = '/usr/local/bin/pysel/TEAM'
 
+## Dump your config here in order to test without installing
+s_config = """
+[General:Options]
+debug = yes
+scoreReportLocation = /home/jdavis/Desktop/ScoreReport.html
+remoteReportingenabled = no
+remoteReportingServer = http://moodle.centraltech.edu
+remoteReportingRound = OK-Cup-StateRd-Ub16
+timeLimit = 150
+
+[10-DisableGuestEtc:Secure_lightdm]
+enabled = yes
+tag = User Management
+pointValue = 5
+parameters = allow-guest greeter-hide-users greeter-show-manual-login
+description = 
+msg = Guest account has been disabled
+"""
 
 class Pysel:
 

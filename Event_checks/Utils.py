@@ -1,4 +1,5 @@
 import re
+import glob
 import subprocess
 
 class Utils:
@@ -84,3 +85,22 @@ class Utils:
         else:
             return True
  
+    staticmethod
+    def conf_d_check(directories_searchString): 
+        ## Can seperate directories with | to check multiple directories. Returns last found state
+        ## Ex /etc/lightdm/|/etc/lightdm.conf.d/:greeter-hide-users
+        directories, searchString = directories_searchString.split(':')[0], directories_searchString.split(':')[1]
+        directoryList = directories.split('|')
+        searchStringFalse = "^" + searchString + "=false"
+        searchStringTrue = "^" + searchString + "=true"
+        status = False
+        for directory in directoryList:
+            mydir = directory + '*.conf'
+            fileList = glob.glob(mydir)
+            fileList.sort()
+            for confFile in fileList:
+                if Utils.string_exists(confFile, searchStringTrue):
+                    status = True
+                elif Utils.string_exists(confFile, searchStringFalse):
+                    status = False
+        return status
