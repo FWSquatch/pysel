@@ -14,7 +14,7 @@ echo -e '[Seat:*]' > /etc/lightdm/lightdm.conf
 echo -e 'allow-guest=true' >> /etc/lightdm/lightdm.conf
 }
 
-$(shuf -n1 -e "${COMMANDS[@]}") ## Choose a random FUNCTION
+$(shuf -n1 -e "${FUNCTIONS[@]}") ## Choose a random FUNCTION
 
 cat >> PySEL.conf << EOL
 [GUESTACCOUNT:Disable_guest]
