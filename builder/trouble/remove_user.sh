@@ -1,26 +1,21 @@
 #!/bin/bash
-USERS=('alice' 'bob' 'charlie' 'doug' 'edward' 'fred' 'greg' 'harry' 'ivan' 'julie' 'kate' 'leonard' 'mike' 'ned' 'oscar' 'pete' 'quinn' 'rod' 'steve' 'trish' 'victor' 'william')
 
-adduser () ## Add a random user
-{
-useradd -m $1 
+rndUser(){ 
+for (( i = 0; i< $1; i++)); do 
+    USER=`rig | awk 'NR==1{print $1}' | tr '[:upper:]' '[:lower:]'`
+    echo Creating bad user: $USER
+    
 cat >> PySEL.conf <<EOL
-[$1:Remove_users]
+[BADUSER$USER:Remove_users]
 enabled = yes
+tag = User Management
 pointValue = 5
-parameters = $user 
+parameters = $USER
 msg = User %PARAMETER% has been removed
 
 EOL
+
+done
 }
 
-user=$(shuf -n1 -e ${USERS[@]})
-while id -u $user > /dev/null; do
-    echo USER: $user
-    user=$(shuf -n1 -e ${USERS[@]})
-    if id -u $user ; then :
-    else
-    break
-    fi
-done
-adduser $user
+rndUser $1

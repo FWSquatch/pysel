@@ -1,14 +1,16 @@
 #!/bin/bash
-USERS=('alice' 'bob' 'charlie' 'doug' 'edward' 'fred' 'greg' 'harry' 'ivan' 'julie' 'kate' 'leonard' 'mike' 'ned' 'oscar' 'pete' 'quinn' 'rod' 'steve' 'trish' 'victor' 'william')
 
-addsudouser () ## Add a random user
-{
-if id -u $1 > /dev/null ; then :
-else
-    useradd -m $1 
+rndUser(){ 
+for (( i = 0; i< $1; i++)); do 
+    USER=`rig | awk 'NR==1{print $1}' | tr '[:upper:]' '[:lower:]'`
+    sudo useradd -m $USER
+    echo -e '1P@ssword!\n1P@ssword!' | sudo passwd $USER
+    echo Creating humble sudo user: $USER
+    
 cat >> PySEL.conf <<EOL
-[$1:Add_to_sudo]
+[SUDO$USER:Add_to_sudo]
 enabled = yes
+tag = User Management
 pointValue = 5
 parameters = $user 
 msg = User %PARAMETER% is now an administrator
@@ -16,19 +18,9 @@ msg = User %PARAMETER% is now an administrator
 EOL
 
 cat >> README <<EOL
-Authorized Admin: $user
+ADMIN - $USER
 EOL
-fi
+done
 }
 
-user=$(shuf -n1 -e ${USERS[@]})
-while id -u $user > /dev/null; do
-    echo USER: $user
-    user=$(shuf -n1 -e ${USERS[@]})
-    if id -u $user ; then :
-    else
-    break
-    fi
-done
-addsudouser $user
-
+rndUser $1

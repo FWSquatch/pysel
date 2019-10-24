@@ -14,8 +14,9 @@ ufw disable
 $(shuf -n1 -e "${FUNCTIONS[@]}") ## Choose a random FUNCTION
 
 cat >> PySEL.conf <<EOL
-[$1:Check_firewall]
+[FIREWALL:Check_firewall]
 enabled = yes
+tag = Defensive Countermeasures
 pointValue = 5
 parameters = null
 msg = Firewall has been enabled

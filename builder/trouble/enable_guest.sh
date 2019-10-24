@@ -16,9 +16,10 @@ echo -e 'allow-guest=true' >> /etc/lightdm/lightdm.conf
 
 $(shuf -n1 -e "${COMMANDS[@]}") ## Choose a random FUNCTION
 
-cat >> PySEL.conf <<EOL
-[$1:Disable_guest]
+cat >> PySEL.conf << EOL
+[GUESTACCOUNT:Disable_guest]
 enabled = yes
+tag = User Management
 pointValue = 5
 parameters = null
 msg = Guest account disabled

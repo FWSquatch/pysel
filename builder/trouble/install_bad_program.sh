@@ -1,34 +1,24 @@
 #!/bin/bash
-USERS=('alice' 'bob' 'charlie' 'doug' 'edward' 'fred' 'greg' 'harry' 'ivan' 'julie' 'kate' 'leonard' 'mike' 'ned' 'oscar' 'pete' 'quinn' 'rod' 'steve' 'trish' 'victor' 'william')
+PROGRAMS=('ophcrack' 'john' 'recon-ng' 'wireshark' 'kismet' 'braa' 'ettercap-graphical' 'aircrack-ng' 'airgraph-ng' 'pompem' 'whatweb' 'wfuzz' 'websploit' 'sqlmap' 'skipfish' 'nikto' 'sugarplum' 'packit' 'reaver' 'mdk3' 'pixiewps' 'rarcrack' 'sipcrack' 'pyrit' 'pdfcrack' 'hydra' 'fcrackzip' 'thc-ipv6' 't50' 'slowhttptest' 'yersinia' 'tshark' 'tcpxtract' 'sslsplit')
 
-addfakesudo () ## Add a random bad user to sudo
-{
-if id -u $1 > /dev/null ; then :
-else
-    useradd -m $1 
-    usermod -aG sudo $1  
+installbadprogram(){
+    program=$(shuf -n1 -e ${PROGRAMS[@]})
+    echo $program
+
+    if  dpkg -s $program > /dev/null 2&>/dev/null ; then
+    echo 'installed!'
+    else
+    echo 'not installed'
+    fi
   
 cat >> PySEL.conf <<EOL
-[$1:Remove_from_sudo]
+[BADPROGRAM$program:Remove_from_sudo]
 enabled = yes
+tag = Prohibited Software
 pointValue = 5
-parameters = $user 
-msg = User %PARAMETER% is no longer an administrator
+parameters = $program
+msg = Prohibited package %PARAMETER% has been removed
 
 EOL
 fi
 }
-
-user=$(shuf -n1 -e ${USERS[@]})
-while id -u $user > /dev/null; do
-    echo USER: $user
-    user=$(shuf -n1 -e ${USERS[@]})
-    if id -u $user ; then :
-    else
-    break
-    fi
-done
-
-
-addfakesudo $user
-

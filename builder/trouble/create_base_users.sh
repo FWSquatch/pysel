@@ -1,35 +1,26 @@
 #!/bin/bash
-USERS=('alice' 'bob' 'charlie' 'doug' 'edward' 'fred' 'greg' 'harry' 'ivan' 'julie' 'kate' 'leonard' 'mike' 'ned' 'oscar' 'pete' 'quinn' 'rod' 'steve' 'trish' 'victor' 'william')
 
-adduser () ## Add a random user
-{
-if id -u $1 > /dev/null ; then :
-else
-useradd -m $1 
+rndUser(){ 
+for (( i = 0; i<= $1; i++)); do 
+    USER=`rig | awk 'NR==1{print $1}' | tr '[:upper:]' '[:lower:]'`
+    sudo useradd -m $USER
+    echo -e '1P@ssword!\n1P@ssword!' | sudo passwd $USER
+    echo Creating base user: $USER
+    
 cat >> PySEL.conf <<EOL
-[$1:Remove_users]
+[BASE$USER:Remove_users]
 enabled = yes
+tag = User Management
 pointValue = -10
-parameters = $user 
-msg = User %PARAMETER% has been created
+parameters = $USER
+msg = Essential user %PARAMETER% has been deleted!
 
 EOL
 
 cat >> README <<EOL
-Authorized user: $user
+USER - $USER
 EOL
-fi
+done
 }
 
-user=$(shuf -n1 -e ${USERS[@]})
-while id -u $user > /dev/null; do
-    echo USER: $user
-    user=$(shuf -n1 -e ${USERS[@]})
-    if id -u $user ; then :
-    else
-    break
-    fi
-done
-
-adduser $user
-
+rndUser $1
