@@ -1,5 +1,5 @@
 #!/bin/bash
-PROGRAMS=('ophcrack' 'john' 'recon-ng' 'wireshark' 'kismet' 'braa' 'ettercap-graphical' 'aircrack-ng' 'airgraph-ng' 'pompem' 'whatweb' 'wfuzz' 'websploit' 'sqlmap' 'skipfish' 'nikto' 'sugarplum' 'packit' 'reaver' 'mdk3' 'pixiewps' 'rarcrack' 'sipcrack' 'pyrit' 'pdfcrack' 'hydra' 'fcrackzip' 'thc-ipv6' 't50' 'slowhttptest' 'yersinia' 'tshark' 'tcpxtract' 'sslsplit')
+PROGRAMS=('ophcrack' 'john' 'recon-ng' 'wireshark' 'kismet' 'braa' 'ettercap-graphical' 'aircrack-ng' 'airgraph-ng' 'whatweb' 'wfuzz' 'websploit' 'sqlmap' 'skipfish' 'nikto' 'sugarplum' 'packit' 'reaver' 'mdk3' 'pixiewps' 'rarcrack' 'sipcrack' 'bind9' 'pyrit' 'pdfcrack' 'hydra' 'fcrackzip' 'thc-ipv6' 't50' 'slowhttptest' 'yersinia' 'tshark' 'tcpxtract' 'sslsplit')
 
 installbadprogram(){
     program=$(shuf -n1 -e ${PROGRAMS[@]})

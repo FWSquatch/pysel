@@ -1,5 +1,5 @@
 #!/bin/bash
-PROGRAMS=('git' 'terminator' 'ghex' 'libreoffice' 'lolcat' 'cowsay' 'sl' '7zip' 'openssl' 'planner' 'glom' 'scribes')
+PROGRAMS=('clamav' 'rkhunter' 'chkrootkit' 'lynis')
 
 installgoodprogram(){
     program=$(shuf -n1 -e ${PROGRAMS[@]})
@@ -7,7 +7,6 @@ installgoodprogram(){
 
     if  dpkg -s $program > /dev/null 2&>/dev/null ; then
         echo $program ALREADY INSTALLED
-        apt purge $program -y
     else
     echo 'not installed'
     fi
@@ -15,15 +14,12 @@ installgoodprogram(){
 cat >> PySEL.conf <<EOL
 [GOODPROGRAM$program:Required_packages]
 enabled = yes
-tag = Application Management
+tag = Defensive Countermeasures
 pointValue = 5
 parameters = $program
-msg = Required package %PARAMETER% has been installed
+msg = Beneficial package %PARAMETER% has been installed
 
 EOL
-
-echo -n 'The latest version of '$program' must be installed. ' >> README
-
 }
 
 installgoodprogram $1

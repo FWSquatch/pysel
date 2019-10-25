@@ -3,11 +3,13 @@ FUNCTIONS=("uninstall" "disable")
 
 uninstall () ## Uninstall ufw
 {
+echo Firewall ufw being uninstalled...
 apt purge ufw -y
 }
 
 disable ()  ## Disable ufw
 {
+echo Firewall ufw being disabled...
 ufw disable
 }
 
