@@ -1,24 +1,26 @@
 #!/bin/bash
 
 rndUser(){ 
-for (( i = 0; i< $1; i++)); do 
+#for (( i = 0; i < $1; i++ )); do 
+for i in {1..$1} ; do 
     USER=`rig | awk 'NR==1{print $1}' | tr '[:upper:]' '[:lower:]'`
     sudo useradd -m $USER
     echo -e '1P@ssword!\n1P@ssword!' | sudo passwd $USER
-    echo Creating humble sudo user: $USER
+    sudo usermod -aG sudo $USER
+    echo Creating FAKE sudo user: $USER
     
 cat >> PySEL.conf <<EOL
-[SUDO$USER:Add_to_sudo]
+[FAKESUDO$USER:Remove_from_sudo]
 enabled = yes
 tag = User Management
 pointValue = 5
-parameters = $user 
-msg = User %PARAMETER% is now an administrator
+parameters = $USER
+msg = User %PARAMETER% is no longer an administrator
 
 EOL
 
 cat >> README <<EOL
-ADMIN - $USER
+USER - $USER
 EOL
 done
 }

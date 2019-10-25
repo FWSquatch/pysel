@@ -6,13 +6,14 @@ installbadprogram(){
     echo $program
 
     if  dpkg -s $program > /dev/null 2&>/dev/null ; then
-    echo 'installed!'
+    echo $program 'installed!'
     else
-    echo 'not installed'
+    echo $program 'not installed'
+    apt install $program -y
     fi
   
 cat >> PySEL.conf <<EOL
-[BADPROGRAM$program:Remove_from_sudo]
+[BADPROGRAM$program:Prohibited_packages]
 enabled = yes
 tag = Prohibited Software
 pointValue = 5
@@ -20,5 +21,7 @@ parameters = $program
 msg = Prohibited package %PARAMETER% has been removed
 
 EOL
-fi
+
 }
+
+installbadprogram $1

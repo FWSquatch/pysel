@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rndUser(){ 
-for (( i = 0; i< $1; i++)); do 
+for (( i = 0; i < $1; i++ )); do 
     USER=`rig | awk 'NR==1{print $1}' | tr '[:upper:]' '[:lower:]'`
     echo Creating bad user: $USER
     

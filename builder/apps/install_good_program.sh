@@ -12,13 +12,14 @@ installgoodprogram(){
     fi
   
 cat >> PySEL.conf <<EOL
-[GOODPROGRAM$program:Remove_from_sudo]
+[GOODPROGRAM$program:Required_packages]
 enabled = yes
-tag = Benificial Software
+tag = Defensive Countermeasures
 pointValue = 5
 parameters = $program
-msg = Prohibited package %PARAMETER% has been removed
+msg = Beneficial package %PARAMETER% has been installed
 
 EOL
-fi
 }
+
+installgoodprogram $1

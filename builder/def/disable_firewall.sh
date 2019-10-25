@@ -3,7 +3,7 @@ FUNCTIONS=("uninstall" "disable")
 
 uninstall () ## Uninstall ufw
 {
-apt purge ufw
+apt purge ufw -y
 }
 
 disable ()  ## Disable ufw
