@@ -12,7 +12,7 @@ for package in python3-pip; do
 done
 
 echo -e 'DONE\nInstalling Python modules'
-for module in xlrd pyarmor; do
+for module in pyarmor; do
     pip3 install $module
 done
 
@@ -35,42 +35,50 @@ else
     echo -e '#!usr/bin/env python3\n\nSCORE_REPORT_LOCATION = '\"$scorelocation\" > score.py
 fi
 
-echo -e 'DONE\nReading configuration file'
-python3 readconfig.py config.xlsx
 
-echo -e 'DONE\nCreating scoring engine'
-cat pysel.py >> score.py 
+echo "Building Engine..."
+echo -e 's_config = """' > score.py
+cat PySEL.conf >> score.py
+echo -e '"""' >> score.py
+cat pysel.py >> score.py
 
-echo -e 'DONE\nObfuscating scoring engine'
-sudo pyarmor obfuscate score.py
-cp -R dist /usr/local/bin/
+echo -e "DONE\nObfuscating pysel.py..."
+pyarmor obfuscate --recursive --output /usr/local/bin/pysel/ 
+sed -i '1 i\from pytransform import pyarmor_runtime\npyarmor_runtime()' /usr/local/bin/pysel/score.py
+chown $cpuser:$cpuser /usr/local/bin/pysel
 
-echo -e 'DONE\nCopying score.py and notify.sh'
-cp notify.sh /usr/local/bin/notify.sh
-chmod 755 /usr/local/bin/notify.sh
-
-echo -e 'DONE\nCreating /cyberpatriot directory'
+echo -e 'DONE\nCreating /cyberpatriot directory...'
 mkdir -p /cyberpatriot
-cp *.png /cyberpatriot/
-cp *.wav /cyberpatriot/
+cp static/*.png /cyberpatriot/
+cp static/*.wav /cyberpatriot/
 
-echo -e 'DONE\nCreating Team ID Changer'
-chown $cpuser:$cpuser SetTeam.desktop
-cp SetTeam.desktop '/home/'$cpuser'/Desktop/'
+echo -e 'DONE\nCreating Team ID Changer...'
+chown $cpuser:$cpuser static/SetTeam.desktop
+cp static/SetTeam.desktop '/home/'$cpuser'/Desktop/'
 chmod 777 '/home/'$cpuser'/Desktop/SetTeam.desktop'
-cp setid.sh /cyberpatriot/
+cp static/setid.sh /cyberpatriot/
 chmod +x /cyberpatriot/setid.sh
 chmod 777 /usr/local/bin/
 
-echo -e 'DONE\nRegistering scoring service'
+echo -e 'DONE\nRegistering scoring service...'
 if [ $(lsb_release -r | cut -f 2) == "16.04" ] ; then
   echo 'Ubuntu 16.04 - Using systemd'
-  cp pysel_scoring.service /etc/systemd/system/
+  cp static/pysel_scoring.service /etc/systemd/system/
   systemctl enable pysel_scoring.service
   systemctl start pysel_scoring.service
 else
   echo 'Ubuntu 14.04 - Using upstart'
-  cp pysel_scoring.conf /etc/init/
+  cp static/pysel_scoring.conf /etc/init/
   echo 'Pysel will fire in 30 seconds'
   service pysel_scoring start &
+fi
+
+echo -e 'DONE\nInstall is complete. Would you like to backup your PySEL.conf file?(Y/n)'
+read backup
+if [ "$backup" == "n" ] || [ "$backup" == "N" ] ; then
+    echo -e 'GOOD LUCK!'
+else
+    cp PySEL.conf '/home/'$cpuser'/Desktop/'
+    echo -e "PySEL.conf has been copied to the Desktop for safe keeping. Don't forget to delete it!"
+
 fi

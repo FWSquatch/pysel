@@ -1,13 +1,14 @@
 #!/bin/bash
 
-rm -rf /usr/local/bin/*
-pip3 uninstall pyarmor -y
+echo -e 'Removing /usr/local/bin/pysel directory...'
 
+rm -rf /usr/local/bin/pysel
 
-if [ $(lsb_release -r | cut -f 2) == "16.04" ] ; then
-  echo 'Ubuntu 16.04 - Using systemd'
-  systemctl stop pysel_scoring_service
-else
-  echo 'Ubuntu 14.04 - Using upstart\n SORRY FOR THE DELAY!'
-  service pysel_scoring stop
-fi
+echo -e 'DONE\nStopping and disabling pysel_scoring.service...'
+systemctl stop pysel_scoring.service
+systemctl disable pysel_scoring.service
+
+echo -e 'DONE\nRemoving scoring service from systemd...'
+rm -rf /etc/systemd/system/pysel_scoring.service
+
+echo -e 'DONE'
