@@ -2,7 +2,7 @@ from .Add_users import Add_users
 from .Remove_users import Remove_users
 from .Required_users import Required_users
 from .Firewall_enabled import Firewall_enabled
-from .Secure_lightdm import Secure_lightdm
+from .Disable_guest import Disable_guest
 from .Required_packages import Required_packages
 from .Prohibited_packages import Prohibited_packages
 from .Secure_ssh import Secure_ssh
@@ -29,3 +29,4 @@ from .File_no_longer_contains import File_no_longer_contains
 from .File_now_contains import File_now_contains
 from .Weak_password import Weak_password
 from .Prohibited_processes import Prohibited_processes
+from .Directory_now_contains_string import Directory_now_contains_string

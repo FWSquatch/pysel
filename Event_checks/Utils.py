@@ -1,5 +1,4 @@
 import re
-import glob
 import subprocess
 
 class Utils:
@@ -15,10 +14,20 @@ class Utils:
             return False
         except:
             return False
+
+    @staticmethod
+    def string_exists_in_dir(targetDir, searchString):
+        command = 'egrep -r "' + searchString + '" ' + targetDir
+        cmd = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+        if cmd.stdout.read() != b'':
+            return True
+        else:
+            return False          
     
     @staticmethod
     def run_command(command):
         command = command.split(' ')
+        print('command split:', command)
         cmd = subprocess.Popen(command, stdout=subprocess.PIPE)
         return cmd.stdout.read()
 
@@ -85,22 +94,3 @@ class Utils:
         else:
             return True
  
-    staticmethod
-    def conf_d_check(directories_searchString): 
-        ## Can seperate directories with | to check multiple directories. Returns last found state
-        ## Ex /etc/lightdm/|/etc/lightdm.conf.d/:greeter-hide-users
-        directories, searchString = directories_searchString.split(':')[0], directories_searchString.split(':')[1]
-        directoryList = directories.split('|')
-        searchStringFalse = "^" + searchString + "=false"
-        searchStringTrue = "^" + searchString + "=true"
-        status = False
-        for directory in directoryList:
-            mydir = directory + '*.conf'
-            fileList = glob.glob(mydir)
-            fileList.sort()
-            for confFile in fileList:
-                if Utils.string_exists(confFile, searchStringTrue):
-                    status = True
-                elif Utils.string_exists(confFile, searchStringFalse):
-                    status = False
-        return status
