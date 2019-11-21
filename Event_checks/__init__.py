@@ -30,3 +30,4 @@ from .File_now_contains import File_now_contains
 from .Weak_password import Weak_password
 from .Prohibited_processes import Prohibited_processes
 from .Directory_now_contains_string import Directory_now_contains_string
+from .Directory_no_longer_contains_string import Directory_no_longer_contains_string
