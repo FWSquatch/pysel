@@ -1,33 +1,4 @@
-from .Add_users import Add_users
-from .Remove_users import Remove_users
-from .Required_users import Required_users
-from .Firewall_enabled import Firewall_enabled
-from .Disable_guest import Disable_guest
-from .Required_packages import Required_packages
-from .Prohibited_packages import Prohibited_packages
-from .Secure_ssh import Secure_ssh
-from .Prohibited_services import Prohibited_services
-from .Required_services import Required_services
-from .Check_forensics import Check_forensics
-from .Secure_login_defs import Secure_login_defs
-from .Add_to_sudo import Add_to_sudo
-from .Remove_from_sudo import Remove_from_sudo
-from .Add_to_group import Add_to_group
-from .Remove_from_group import Remove_from_group
-from .Perm_no_longer_equal import Perm_no_longer_equal
-from .Perm_now_equal_to import Perm_now_equal_to
-from .Kernel_updated import Kernel_updated
-from .Update_settings import Update_settings
-from .Bad_file import Bad_file
-from .Check_user_password import Check_user_password
-from .Check_password_policy import Check_password_policy
-from .Check_account_lockout import Check_account_lockout
-from .Kernel_harden import Kernel_harden
-from .Package_updated_latest import Package_updated_latest
-from .Package_updated_to_version import Package_updated_to_version
-from .File_no_longer_contains import File_no_longer_contains
-from .File_now_contains import File_now_contains
-from .Weak_password import Weak_password
-from .Prohibited_processes import Prohibited_processes
-from .Directory_now_contains_string import Directory_now_contains_string
-from .Directory_no_longer_contains_string import Directory_no_longer_contains_string
+from os.path import dirname, basename, isfile, join
+import glob
+modules = glob.glob(join(dirname(__file__), "*.py"))
+__all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py')]

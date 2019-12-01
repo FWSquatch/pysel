@@ -95,7 +95,7 @@ msg = Forensic question %PARAMETER% is correct
 ---
 ## Development
 If you are wanting to add a custom event you will need to follow some guidelines.  
-All event checks are stored in the Event_checks folder. 
+- All event checks are stored in the `Event_checks` folder. 
 - In order to score points the event should return `True`
 - The event must only return `True` or `False`.  
 - By default the return value should be `False`. 
@@ -113,9 +113,6 @@ def Check_hostname(hostname):
     else:
         return False
 ```
-
-- Once you have the function written add `from .Check_hostname import Check_hostname` to the bottom of `__init__.py`
-
 
 After all of that is done you can add your custom event to the PySEL.conf file. 
 ```
