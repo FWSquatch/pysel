@@ -43,8 +43,8 @@ echo -e '"""' >> score.py
 cat pysel.py >> score.py
 
 echo -e "DONE\nObfuscating pysel.py..."
-pyarmor obfuscate --recursive --output /usr/local/bin/pysel/ 
-sed -i '1 i\from pytransform import pyarmor_runtime\npyarmor_runtime()' /usr/local/bin/pysel/score.py
+pyarmor obfuscate --recursive --output /usr/local/bin/pysel/ score.py
+#sed -i '1 i\from pytransform import pyarmor_runtime\npyarmor_runtime()' /usr/local/bin/pysel/score.py
 chown $cpuser:$cpuser /usr/local/bin/pysel
 
 echo -e 'DONE\nCreating /cyberpatriot directory...'
@@ -53,12 +53,13 @@ cp static/*.png /cyberpatriot/
 cp static/*.wav /cyberpatriot/
 
 echo -e 'DONE\nCreating Team ID Changer...'
-chown $cpuser:$cpuser static/SetTeam.desktop
-cp static/SetTeam.desktop '/home/'$cpuser'/Desktop/'
-chmod 777 '/home/'$cpuser'/Desktop/SetTeam.desktop'
-cp static/setid.sh /cyberpatriot/
-chmod +x /cyberpatriot/setid.sh
+# chown $cpuser:$cpuser static/SetTeam.desktop
+# cp static/SetTeam.desktop '/home/'$cpuser'/Desktop/'
+# chmod 777 '/home/'$cpuser'/Desktop/SetTeam.desktop'
+# cp static/setid.sh /cyberpatriot/
+# chmod +x /cyberpatriot/setid.sh
 chmod 777 /usr/local/bin/
+echo 'Skills Contestant' > /usr/local/bin/pysel/TEAM
 
 echo -e 'DONE\nRegistering scoring service...'
 if [ $(lsb_release -r | cut -f 2) == "16.04" ] ; then
