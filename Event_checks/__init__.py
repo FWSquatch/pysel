@@ -33,5 +33,7 @@ from .Update_settings import Update_settings
 from .Utils import Utils
 from .Weak_password import Weak_password
 from .Firewall_rule_exists import Firewall_rule_exists
+from .Not_owned_by_group import Not_owned_by_group
 from .Owned_by_group import Owned_by_group
+from .Not_owned_by_user import Not_owned_by_user
 from .Owned_by_user import Owned_by_user
