@@ -3,234 +3,274 @@ s_config = """
 debug = yes
 scoreReportLocation = /home/skills/Desktop/ScoreReport.html
 remoteReportingenabled = no
-remoteReportingServer = http://moodle.centraltech.edu
-remoteReportingRound = SkillsUSA State Competition
+remoteReportingServer = http://someserver.edu
+remoteReportingRound = Some Competition
 timeLimit = 150
 
-[01-RemoveMcPoyle:Remove_users]
+[01-Forensics1:Owned_by_group]
 enabled = yes
+tag  = Forensics
+pointValue = 10
+parameters = /etc/passwd:root 
+description = Ex: forensic9.txt:green (Check forensic9.txt for ANSWER: green)
+msg = File owned by root
+
+[02-Forensics2:Check_forensics]
+enabled = no
+tag  = Forensics
+pointValue = 10
+parameters = forensics2.txt:oyeah
+description = Ex: forensic9.txt:green (Check forensic9.txt for ANSWER: green)
+msg = Forensic question 2 correct 
+
+[03-BadUsers:Remove_users]
+enabled = no
 tag = User Management
-pointValue = 3
-parameters = mcpoyle
+pointValue = 5
+parameters = plankton
 description = Users that should be removed from the system 
 msg = Unwanted user %PARAMETER% has been removed: 
 
-[02-AddMacDee:Add_users]
-enabled = yes
+[04-NewUsers:Add_users]
+enabled = no
 tag = User Management
-pointValue = 1
-parameters = mac deandra
+pointValue = 5
+parameters = sandy
 description = Users that need to be added to the system
 msg = New user %PARAMETER% added to system 
 
-[03-GoodUsers:Required_users]
-enabled = yes
+[05-GoodUsers:Required_users]
+enabled = no
 tag = User Management
 pointValue = -10
-parameters = frank skills dennis 
+parameters = root cyber squidward
 description = Users that are required on the system
 msg = Essential user %PARAMETER% has been removed!
 
-[04-FrankSudo:Add_to_sudo]
-enabled = yes
+[06-RequiredSudo:Add_to_sudo]
+enabled = no
 tag = User Management
-pointValue = 2
-parameters = frank
+pointValue = 6
+parameters = eugene
 description = Users that are required to be Administrators
 msg = User %PARAMETER% is now an administrator
 
-[05-DennisNoSudo:Remove_from_sudo]
-enabled = yes
+[07-UnauthorizedSudo:Remove_from_sudo]
+enabled = no
 tag = User Management
-pointValue = 2 
-parameters = dennis
+pointValue = 6
+parameters = spongebob
 description = Users that are prohibited from being Administrators
 msg = User %PARAMETER% is no longer an administrator
 
-[06-CharlieDeeWebDev:Add_to_group]
-enabled = yes
+[08-RequiredInGroup:Add_to_group]
+enabled = no
 tag = User Management
-pointValue = 2
-parameters = charlie:webdev deandra:webdev
+pointValue = 6
+parameters = spongebob:krustyk squidward:krustyk sandy:krustyk
 description = Users that are required to be in a group
 msg = User %PARAMETER% is now in group
 
-[6A-WebdevGroupCreated:File_now_contains]
-enabled = yes
-tag = Local Policy
-pointValue = 3
-parameters = /etc/group:webdev
-description = Text you would like added to file
-msg = Group webdev has been created
+[09-UnauthorizedInGroup:Remove_from_group]
+enabled = no
+tag = User Management
+pointValue = 6
+parameters = plankton:krustyk spongebob:krustyk
+description = Users that are prohibited from being in a group
+msg = User %PARAMETER% is no longer in group
 
-[07-DisableGuestEtc:Secure_lightdm]
+[10-DisableGuestEtc:Secure_lightdm]
 enabled = yes
 tag = User Management
-pointValue = 2
+pointValue = 5
 parameters = allow-guest greeter-hide-users greeter-show-manual-login
 description = 
 msg = Guest account has been disabled
 
-[08-CheckUserPassword: Check_user_password]
-enabled = yes
+[11-CheckUserPassword: Check_user_password]
+enabled = no
 tag = User Management
-pointValue = 2
-parameters = deandra:MinDays charlie:MaxDays frank:NoPassword
+pointValue = 5
+parameters = sandy:MinDays spongebob:MaxDays squidward:NoPassword
 description = Ex: username:check. Possible parameters MinDays, MaxDays, NoPassword
 msg = Password issue has been fixed: %PARAMETER%
 
-[09-PasswordPolicy:Check_password_policy]
-enabled = yes
+[12-PasswordPolicy:Check_password_policy]
+enabled = no
 tag = Account Policy
-pointValue = 1
-parameters = MinLen:8 Retry:5 Remember:12
+pointValue = 5
+parameters = RejectUsername EnforceForRoot LockoutTally MinLen:6 Retry:5 MaxRepeat:3 Remember:12 UCredit:1 LCredit:1 DCredit:1 DifOk:3 GecosCheck:1
 description = Possible parameters RejectUsername, EnforceForRoot, LockoutTally, MinLen:#, Retry:#, MaxRepeat:#, Remember:#, UCredit:#, LCredit:#, DCredit:#, DifOk:#, GecosCheck:1
 msg = Password policy %PARAMETER% secured
 
-[10-LoginDefs:Secure_login_defs]
-enabled = yes
+[####13-LockoutPolicy:Check_account_lockout]
+enabled = no
 tag = Account Policy
-pointValue = 1
-parameters = PasswordMaxDays PasswordMinDays LogUnknownFail
+pointValue = 5
+parameters = OnErrorFail Audit EvenDenyRoot Deny:5 UnlockTime:1200 RootUnlockTime:1200
+description = Possible parameters 
+msg = Account lockout policy secured by %PARAMETER%
+
+[14-LoginDefs:Secure_login_defs]
+enabled = no
+tag = Account Policy
+pointValue = 5
+parameters = PasswordMaxDays PasswordMinDays PasswordWarnAge LogUnknownFail LogOkLogins SuLogFile
 description = Possible parameters: PasswordMaxDays, PasswordMinDays, PasswordWarnAge, LogUnknownFail, LogOkLogins, SuLogFile
 msg = Account policy has been made more secure by %PARAMETER%
 
-[12-RemoveJohn:Prohibited_packages]
-enabled = yes
+[15-CowsayInstalled:Required_packages]
+enabled = no
+tag = Application Update
+pointValue = 7
+parameters = cowsay
+description = Packages that must be present on the system
+msg = Required package %PARAMETER% has been installed
+
+[16-GitUpdate:Package_updated_latest]
+enabled = no
+tag = Application Update
+pointValue = 5
+parameters = git
+description = Package that has been updated to the latest version
+msg = Package %PARAMETER% has been updated
+
+[16-SpecialFirefox:Package_updated_to_version]
+enabled = no
+tag = Application Update
+pointValue = 5
+parameters = firefox:54.0+build3-0ubuntu0.16.04.1 nano:2.5.3-2
+description = Package that has been updated to THIS SPECIFIC VERSION
+msg = Package has updated: %PARAMETER%
+
+[17-RemoveHydraJohn:Prohibited_packages]
+enabled = no
 tag = Unwanted Software
-pointValue = 3
-parameters = john
+pointValue = 7
+parameters = cowsay
 description = Packages that are not allowed on the system
 msg = Unwanted software %PARAMETER% removed
 
-[13-ShieldsUP:Firewall_enabled]
-enabled = yes
+[18-ShieldsUP:Firewall_enabled]
+enabled = no
 tag = Defensive Countermeasures
-pointValue = 2
+pointValue = 4
 parameters = None
 description = Make sure the firewall is enabled
 msg = Firewall protection has been enabled
 
-[14-SecureSSH:Secure_ssh]
-enabled = yes
+[19-SecureSSH:Secure_ssh]
+enabled = no
 tag = Application Security
-pointValue = 2
-parameters = defaultPortChange PermitRootLoginNo Protocol2Only UsePAMyes PermitEmptyPasswordsNo
+pointValue = 4
+parameters = defaultPortChange PermitRootLoginNo Protocol2Only UsePAMyes PermitUserEnvironmentNo PermitEmptyPasswordsNo
 description = Possible parameters: defaultPortChange, PermitRootLoginNo, Protocol2Only, UsePAMyes, PermitUserEnvironmentNo PermitEmptyPasswordsNo
 msg = SSH made more secure by %PARAMETER%
 
-[15-SshApacheRequiredService:Required_services]
-enabled = yes
+[20-SshRequiredService:Required_services]
+enabled = no
 tag = Service Auditing
-pointValue = 3
-parameters = ssh apache2
+pointValue = 7
+parameters = ssh
 description = Services that must be running
 msg = Required service %PARAMETER% is running
 
-[16-BadServiceApache2:Prohibited_services]
-enabled = yes
+[21-BadServiceApache2:Prohibited_services]
+enabled = no
 tag = Service Auditing
-pointValue = 4
-parameters = mysql
+pointValue = 7
+parameters = apache2 nc
 description = Services that you want stopped
 msg = Service %PARAMETER% has been disabled
 
-[17-TurnOnUpdates:Update_settings]
-enabled = yes
+[21A-Netcat:Prohibited_processes]
+enabled = no
+tag = Malware
+pointValue = 7
+parameters = nc
+description = Processes that you want stopped
+msg = Service %PARAMETER% has been stopped
+
+[22-KernelNoLonger4.12:Kernel_updated]
+enabled = no
+tag = OS Updates
+pointValue = 5
+parameters = 4.10.0-28-generic
+description = Check to see if the kernel has been updated
+msg = Linux kernel has been updated
+
+[23-TurnOnUpdates:Update_settings]
+enabled = no
 tag = OS Update
-pointValue = 1
-parameters = installSecUpdates checkDaily downloadSecUpdates 
+pointValue = 4
+parameters = installSecUpdates checkDaily downloadSecUpdates notifyForLTS mainRepoEnabled
 description = Possible parameters: installSecUpdates checkDaily, downloadSecUpdates, notifyForLTS, mainRepoEnabled
 msg = Update settings have been configured: 
 
-[18-SysCtrlGoodness:Kernel_harden]
-enabled = yes
+[####24-SysCtrlGoodness:Kernel_harden]
+enabled = no
 tag = Local Policy
-pointValue = 1
-parameters = DmesgRestrict CtrlAltDel DisableSendRedirects 
+pointValue = 5
+parameters = BlockModLoading DmesgRestrict KexecLoadDisabled UnprivBpfDisabled CoreUsesPid CtrlAltDel SysRq AllRejectAcceptRedirects DefRejectAcceptRedirects AllDisableAcceptSourceRoute DefDisableAcceptSourceRoute BootPReplay Ipv4Forwarding AllLogMartians DefLogMartians McForwarding ProxyArp RpFilter DisableSendRedirects IgnoreIcmpBroadcast IgnoreIcmpBogusError TcpSynCookies TcpTimestamps DisableUnprivUserNameSpace
 description = Possible Parameters: BlockModLoading, DmesgRestrict, KexecLoadDisabled, UnprivBpfDisabled, CoreUsesPid, CtrlAltDel, SysRq, AllRejectAcceptRedirects, DefRejectAcceptRedirects, AllDisableAcceptSourceRoute, DefDisableAcceptSourceRoute, BootPReplay, Ipv4Forwarding, AllLogMartians, DefLogMartians, McForwarding, ProxyArp, RpFilter, DisableSendRedirects, IgnoreIcmpBroadcast, IgnoreIcmpBogusError, TcpSynCookies, TcpTimestamps, DisableUnprivUserNameSpace
 msg = Kernel hardened via %PARAMETER%
 
-[19-ChangePermShadow:Perm_no_longer_equal]
-enabled = yes
+[25-ChangePermShadow:Perm_no_longer_equal]
+enabled = no
 tag = Uncategorized OS Setting
-pointValue = 4
+pointValue = 8
 parameters = /etc/shadow:777
 description = Ex: /etc/shadow:777 (Change permissions of /etc/shadow away from 777
 msg = File permissions on /etc/shadow have been secured
 
-[20-ChangePermSshConfig:Perm_now_equal_to]
-enabled = yes
+[26-ChangePermSshConfig:Perm_now_equal_to]
+enabled = no
 tag = Uncategorized OS Setting
-pointValue = 3
-parameters = /var/www/html:770
+pointValue = 8
+parameters = /etc/ssh/sshd_config:600
 description = Ex: /etc
-msg = Directory permissions on /var/www/html have set
+msg = File permissions on /etc/sshd_config have been secured
 
-[21-RemovePWFile:Bad_file]
-enabled = yes
+[27-RemoveDummyMp3Prohibited Files:Bad_file]
+enabled = no
 tag = Prohibited File
 pointValue = 5
-parameters = /home/frank/Desktop/passwords.csv
+parameters = /opt/dummy.mp3
 description = Files you want removed from the system
-msg = Plaintext password file %PARAMETER% removed
+msg = Prohibited file %PARAMETER% removed
 
-[22-SshLoginBanner:File_now_contains]
-enabled = yes
+[28-SomeMiscThing:File_no_longer_contains]
+enabled = no
 tag = Local Policy
 pointValue = 5
-parameters = /etc/ssh/sshd_config:^Banner.*
-description = Text you would like added to file
-msg = Ssh server is now displaying a login banner.
+parameters = /opt/file1:^Hello
+description = Text you would like removed from file (Regex is allowed)
+msg = File /etc/example has changed in some way. (text removed)
 
-[23-FrankNoPasswdLogin:File_no_longer_contains]
-enabled = yes
+[29-SomeMiscThing:File_now_contains]
+enabled = no
 tag = Local Policy
 pointValue = 5
-parameters = /etc/group:^nopasswdlogin.*frank.*
+parameters = /opt/file2:Hello
+description = Text you would like added to file
+msg = File /etc/example2 has changed in some way (text added)
+
+[07-SwansonNoPasswdLogin:File_no_longer_contains]
+enabled = no
+tag = Local Policy
+pointValue = 5
+parameters = /home/cyber/Desktop/group:^nopasswdlogin.*rswanson.*
 description = Text you would like removed from file
-msg = User frank no longer allowed to login without password
+msg = File /etc/example has changed in some way. (text removed)
 
-[24-DennisHasPW:File_no_longer_contains]
-enabled = yes
-tag = Password Policy
-pointValue = 3
-parameters = /etc/shadow:dennis::.*
+[08-SwansonNoPasswdLogin:File_no_longer_contains]
+enabled = no
+tag = Local Policy
+pointValue = 5
+parameters = /home/cyber/Desktop/group:(?:libpam-cracklib|libpam-pwquality)
 description = Text you would like removed from file
-msg = User dennis has a password
+msg = File /etc/example has changed in some way. (text removed)
 
-[25-RkhunterCronJob:File_now_contains]
-enabled = yes
-tag = Local Policy
-pointValue = 4
-parameters = /var/spool/cron/crontabs/root:^0\s1\s[*]1\s[*]1\s[*]1\s.*rkhunter.*
-description = Text you would like added to file
-msg = Rkhunter scan being run via cron
-
-[26-HttpFirewallRule:Firewall_rule_exists]
-enabled = yes
-tag = Defensive Countermeasures
-pointValue = 3
-parameters = 80
-description = Port number that should exist in firewall rules
-msg = HTTP traffic is allowed through firewall
-
-[27-CharlieRbase:File_now_contains]
-enabled = yes
-tag = Local Policy
-pointValue = 4
-parameters = /etc/passwd:*.charlie.*rbash.*
-description = Text you would like added to file
-msg = User charlie has been set to a restricted bash shell
-
-
-[28-DennisNoSsh:File_now_contains]
-enabled = yes
-tag = Local Policy
-pointValue = 4
-parameters = /etc/ssh/sshd_config:^DenyUsers.*dennis.*
-description = Text you would like added to file
-msg = User dennis has been denied ssh access.
 """
 import configparser
 import subprocess
@@ -316,7 +356,7 @@ class Pysel:
 
     def draw_html_head(self, team, round):
         f = open(self.general['General:Options']['scorereportlocation'], 'w')
-        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>PySEL</H1><H5>Python Scoring Engine: Linux</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><br><table border="1"; align="center"><tr><td colspan=3><div align="center"><b>Team: ' + team + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round: ' + round + '</b></div></td></tr><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
+        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>Oklahoma</H1><H5>Cybersecurity Competition</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><br><table border="1"; align="center"><tr><td colspan=3><div align="center"><b>Team: ' + team + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round: ' + round + '</b></div></td></tr><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
         f.close()
 
     def update_html_body(self, score, event, parameter, tag):
