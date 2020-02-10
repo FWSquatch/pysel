@@ -71,7 +71,7 @@ class Pysel:
 
         f.close()
 
-    def update_html_body(self, score, event, parameter, tag, justification):
+    def update_html_body(self, score, event, parameter, tag, explanation):
         if '%PARAMETER%' not in event:
           reportedEvent = event
         else:
@@ -79,7 +79,7 @@ class Pysel:
         if score == 'MISS':
              payload = '<tr bgcolor="lightgray"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
              if EXPLAIN == True:
-                 payload += '<tr bgcolor="lightgray"><td colspan="3">' + justification + '</td></tr>'
+                 payload += '<tr bgcolor="lightgray"><td colspan="3">' + explanation + '</td></tr>'
 
         else:
             if int(score) < 0:
@@ -87,7 +87,7 @@ class Pysel:
             else:
                 payload = '<tr bgcolor="lightgreen"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
                 if EXPLAIN == True:
-                    payload += '<tr bgcolor="lightgreen"><td colspan="3">' + justification + '</td></tr>'
+                    payload += '<tr bgcolor="lightgreen"><td colspan="3">' + explanation + '</td></tr>'
             
         f = open(self.general['General:Options']['scorereportlocation'], 'a')
         f.write(payload)
@@ -137,10 +137,10 @@ class Pysel:
                         if eval("Event_checks."+name.split(":")[1]+"(parameter)"):
                             print('[X] ',event['pointvalue'], 'pts for',event['tag'], parameter)
                             self.currentScore += int(event['pointvalue'])
-                            self.update_html_body(event['pointvalue'], event['msg'], parameter, event['tag'], event['justification'])
+                            self.update_html_body(event['pointvalue'], event['msg'], parameter, event['tag'], event['explanation'])
                         else:
                             if DEBUG == True and int(event['pointvalue']) > 0:
-                                    self.update_html_body('MISS', event['msg'], parameter, event['tag'], event['justification'])
+                                    self.update_html_body('MISS', event['msg'], parameter, event['tag'], event['explanation'])
                                     print("[ ]  0 pts for",event['msg'], parameter)
             
             ## Did we gain or lose points?
