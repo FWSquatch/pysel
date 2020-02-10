@@ -9,11 +9,12 @@ import os
 import io
 
 DEBUG = False
+EXPLAIN = False
 scoreReportLocation = ''
 teamIdLocation = '/usr/local/bin/pysel/TEAM'
 
 ## Dump your config here in order to test without installing
-#s_config = """ """
+# s_config = """ """
 
 class Pysel:
 
@@ -49,6 +50,9 @@ class Pysel:
         if self.general['General:Options']['debug'] == 'yes':
             global DEBUG
             DEBUG = True
+        if self.general['General:Options']['explanations'] == 'yes':
+            global EXPLAIN
+            EXPLAIN = True
         
     
     def __hash_score__(self, score):
@@ -63,22 +67,27 @@ class Pysel:
 
     def draw_html_head(self, team, round):
         f = open(self.general['General:Options']['scorereportlocation'], 'w')
-        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/pysel-static/cplogo.png"></td><td><div align="center"><H1>Oklahoma</H1><H5>Cybersecurity Competition</H5></div></td><td><img src="/pysel-static/eoclogo.png"</td></tr></table><br><hr><br><table border="1"; align="center"><tr><td colspan=3><div align="center"><b>Team: ' + team + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round: ' + round + '</b></div></td></tr><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
+        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table width="600"; align="center";><tr><td><img src="/pysel-static/cplogo.png"></td><td><div align="center"><H1>Oklahoma</H1><H5>Cybersecurity Competition</H5></div></td><td><img src="/pysel-static/eoclogo.png"</td></tr></table><br><hr><br><table border="1"; align="center"; width="900"><tr><td colspan=3><div align="center"><b>Team: ' + team + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round: ' + round + '</b></div></td></tr><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
+
         f.close()
 
-    def update_html_body(self, score, event, parameter, tag):
+    def update_html_body(self, score, event, parameter, tag, justification):
         if '%PARAMETER%' not in event:
           reportedEvent = event
         else:
           reportedEvent = str(event).replace('%PARAMETER%', parameter)
         if score == 'MISS':
              payload = '<tr bgcolor="lightgray"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
+             if EXPLAIN == True:
+                 payload += '<tr bgcolor="lightgray"><td colspan="3">' + justification + '</td></tr>'
 
         else:
             if int(score) < 0:
                 payload = '<tr bgcolor="crimson"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
             else:
                 payload = '<tr bgcolor="lightgreen"><td>' + str(score) + '</td><td>' + reportedEvent + '</td><td>' + tag + '</td></tr>'
+                if EXPLAIN == True:
+                    payload += '<tr bgcolor="lightgreen"><td colspan="3">' + justification + '</td></tr>'
             
         f = open(self.general['General:Options']['scorereportlocation'], 'a')
         f.write(payload)
@@ -128,10 +137,10 @@ class Pysel:
                         if eval("Event_checks."+name.split(":")[1]+"(parameter)"):
                             print('[X] ',event['pointvalue'], 'pts for',event['tag'], parameter)
                             self.currentScore += int(event['pointvalue'])
-                            self.update_html_body(event['pointvalue'], event['msg'], parameter, event['tag'])
+                            self.update_html_body(event['pointvalue'], event['msg'], parameter, event['tag'], event['justification'])
                         else:
                             if DEBUG == True and int(event['pointvalue']) > 0:
-                                    self.update_html_body('MISS', event['msg'], parameter, event['tag'])
+                                    self.update_html_body('MISS', event['msg'], parameter, event['tag'], event['justification'])
                                     print("[ ]  0 pts for",event['msg'], parameter)
             
             ## Did we gain or lose points?
