@@ -170,14 +170,14 @@ description = Possible Parameters: BlockModLoading, DmesgRestrict, KexecLoadDisa
 msg = Kernel hardened via %PARAMETER%
 justification = There is SO MUCH to unpack on this one. I'll save it for later.
 
-[19-ChangePermShadow:Perm_no_longer_equal]
+[19-ChangePermPasswd:Perm_no_longer_equal]
 enabled = yes
 tag = Uncategorized OS Setting
 pointValue = 4
-parameters = /etc/shadow:777
+parameters = /etc/passwd:777
 description = Ex: /etc/shadow:777 (Change permissions of /etc/shadow away from 777
 msg = File permissions on /etc/shadow have been secured
-justification = The /etc/shadow file contains password hashes and should not be readable to the normal users.
+justification = The /etc/passwd contains important account info that should not be writable by normal users.
 
 [20-ChangePermSshConfig:Perm_now_equal_to]
 enabled = yes
@@ -237,9 +237,9 @@ justification = Cronjob must be added to the root crontab
 enabled = yes
 tag = Defensive Countermeasures
 pointValue = 3
-parameters = 80
+parameters = 80 22
 description = Port number that should exist in firewall rules
-msg = HTTP traffic is allowed through firewall
+msg = Port %PARAMETER% traffic is allowed through firewall
 justification = Apache might be serving a website, but it isn't available to the outside world without a firewall rule
 
 [27-CharlieRbase:File_now_contains]
