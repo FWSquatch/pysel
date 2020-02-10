@@ -13,24 +13,7 @@ scoreReportLocation = ''
 teamIdLocation = '/usr/local/bin/pysel/TEAM'
 
 ## Dump your config here in order to test without installing
-"""
-s_config = 
-[General:Options]
-debug = yes
-scoreReportLocation = /home/jdavis/Desktop/ScoreReport.html
-remoteReportingenabled = no
-remoteReportingServer = http://moodle.centraltech.edu
-remoteReportingRound = OK-Cup-StateRd-Ub16
-timeLimit = 150
-
-[10-DisableGuestEtc:Secure_lightdm]
-enabled = yes
-tag = User Management
-pointValue = 5
-parameters = allow-guest greeter-hide-users greeter-show-manual-login
-description = 
-msg = Guest account has been disabled
-"""
+#s_config = """ """
 
 class Pysel:
 
@@ -38,8 +21,6 @@ class Pysel:
         buf = io.StringIO(s_file)
         config_parser = configparser.ConfigParser()
         config_parser.read_file(buf)
-#        config_parser = configparser.ConfigParser()
-#        config_parser.read(buf)
        
         team_config = configparser.ConfigParser()
         team_config.read(team_conf)
@@ -82,7 +63,7 @@ class Pysel:
 
     def draw_html_head(self, team, round):
         f = open(self.general['General:Options']['scorereportlocation'], 'w')
-        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/cyberpatriot/cplogo.png"></td><td><div align="center"><H1>Oklahoma</H1><H5>Cybersecurity Competition</H5></div></td><td><img src="/cyberpatriot/eoclogo.png"</td></tr></table><br><hr><br><table border="1"; align="center"><tr><td colspan=3><div align="center"><b>Team: ' + team + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round: ' + round + '</b></div></td></tr><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
+        f.write('<!DOCTYPE html><html lang="en">\n<head><title>PySEL Score Report</title><meta http-equiv="refresh" content="40"></head>\n<body><table align="center"><tr><td><img src="/pysel-static/cplogo.png"></td><td><div align="center"><H1>Oklahoma</H1><H5>Cybersecurity Competition</H5></div></td><td><img src="/pysel-static/eoclogo.png"</td></tr></table><br><hr><br><table border="1"; align="center"><tr><td colspan=3><div align="center"><b>Team: ' + team + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round: ' + round + '</b></div></td></tr><tr><td>Pts</td><td>Event</td><td>Tag</td></tr>\n')
         f.close()
 
     def update_html_body(self, score, event, parameter, tag):
@@ -156,10 +137,10 @@ class Pysel:
             ## Did we gain or lose points?
             if initialScore < self.currentScore:
                 print("_____I LIKE YOUR STYLE!____")
-                self.play_noise('/cyberpatriot/gain.wav')
+                self.play_noise('/pysel-static/gain.wav')
             elif initialScore > self.currentScore:
                 print("_____YOU DISGUST ME!____")
-                self.play_noise('/cyberpatriot/lose.wav')
+                self.play_noise('/pysel-static/lose.wav')
 
             initialScore = self.currentScore
             print('Current score: {} out of {}'.format(self.currentScore, self.possibleScore))

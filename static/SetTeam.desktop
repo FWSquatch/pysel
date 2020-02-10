@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Set Team ID
 Comment=Set your Team ID here
-Exec=/cyberpatriot/setid.sh
-Icon=/cyberpatriot/cp.png
+Exec=/pysel-static/setid.sh
+Icon=/pysel-static/cp.png
 Terminal=true
 Type=Application

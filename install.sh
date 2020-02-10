@@ -47,17 +47,17 @@ pyarmor obfuscate --recursive --output /usr/local/bin/pysel/ score.py
 #sed -i '1 i\from pytransform import pyarmor_runtime\npyarmor_runtime()' /usr/local/bin/pysel/score.py
 chown $cpuser:$cpuser /usr/local/bin/pysel
 
-echo -e 'DONE\nCreating /cyberpatriot directory...'
-mkdir -p /cyberpatriot
-cp static/*.png /cyberpatriot/
-cp static/*.wav /cyberpatriot/
+echo -e 'DONE\nCreating /pysel-static directory...'
+mkdir -p /pysel-static
+cp static/*.png /pysel-static/
+cp static/*.wav /pysel-static/
 
 echo -e 'DONE\nCreating Team ID Changer...'
 # chown $cpuser:$cpuser static/SetTeam.desktop
 # cp static/SetTeam.desktop '/home/'$cpuser'/Desktop/'
 # chmod 777 '/home/'$cpuser'/Desktop/SetTeam.desktop'
-# cp static/setid.sh /cyberpatriot/
-# chmod +x /cyberpatriot/setid.sh
+# cp static/setid.sh /pysel-static/
+# chmod +x /pysel-static/setid.sh
 chmod 777 /usr/local/bin/
 echo 'Skills Contestant' > /usr/local/bin/pysel/TEAM
 
