@@ -1,7 +1,7 @@
 s_config = """
 [General:Options]
 debug = yes
-scoreReportLocation = /home/skills/Desktop/ScoreReport.html
+scoreReportLocation = /home/ubuntu/Desktop/ScoreReport.html
 remoteReportingenabled = no
 remoteReportingServer = http://moodle.centraltech.edu
 remoteReportingRound = SkillsUSA State Competition
@@ -276,7 +276,7 @@ teamIdLocation = '/usr/local/bin/pysel/TEAM'
 s_config = 
 [General:Options]
 debug = yes
-scoreReportLocation = /home/jdavis/Desktop/ScoreReport.html
+scoreReportLocation = /home/ubuntu/Desktop/ScoreReport.html
 remoteReportingenabled = no
 remoteReportingServer = http://moodle.centraltech.edu
 remoteReportingRound = OK-Cup-StateRd-Ub16
