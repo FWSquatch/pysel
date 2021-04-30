@@ -239,14 +239,6 @@ parameters = /etc/passwd:root
 description = File must be owned by this user. Format = File:user
 msg = User frank is no longer owner of file /etc/passwd
 
-[30-VarWwwWebdev:Owned_by_group]
-enabled = yes
-tag = Local Policy
-pointValue = 3
-parameters = /var/www/:webdev
-description = File must be owned by this group. Format = File:user
-msg = Webserver root directory is owned by group webdev
-
 [31-RemoveNCListener:Bad_file]
 enabled = yes
 tag = Prohibited File
